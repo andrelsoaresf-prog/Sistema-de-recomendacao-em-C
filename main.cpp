@@ -20,6 +20,8 @@ int main(){
     char cabeçalho[256];
     vector<string> vetorCliente;
     vector<int> vetorProduto;
+    map<string, int> mapaCliente;
+    map<int, int> mapaProduto;
 
     arquivo = fopen("dados/dados_venda_cluster_0.csv", "r");
     if (arquivo == NULL){
@@ -35,24 +37,31 @@ int main(){
         &dados.CodProduto,
         dados.NomeProduto) == 4)
     {
-        //printf("Data: %d | Código do cliente: %s | Código do produto: %d | Nome do produto: %s\n", 
-            //dados.Data, dados.CodCliente, dados.CodProduto, dados.NomeProduto);
         vetorCliente.push_back(dados.CodCliente);
         vetorProduto.push_back(dados.CodProduto);
     }
 
-    //for (int i = 0; i < size(vetorCliente); i++){
-        //cout << "código do cliente: " << vetorCliente[i] << endl;
-    //}
+    for (int i = 0; i < vetorCliente.size(); i++){
+        string cliente = vetorCliente[i];
 
-    //cout << "quantidade de clientes: " << size(vetorCliente) << endl;
-
-    for (int i = 0; i < size(vetorProduto); i++){
-        cout << vetorProduto[i] << endl;
+        if (mapaCliente.find(cliente) == mapaCliente.end()){
+            mapaCliente[cliente] = mapaCliente.size();
+        }
     }
 
-    cout << size(vetorProduto) << endl;
-    
+    for (int i = 0; i < vetorProduto.size(); i++){
+        int produto = vetorProduto[i];
+
+        if (mapaProduto.find(produto) == mapaProduto.end()){
+            mapaProduto[produto] = mapaProduto.size();
+        }
+    }
+
+    for (auto& p : mapaProduto){
+        cout << p.first << "->" << p.second << endl;
+    }
+
+
     
     fclose(arquivo);
     return 0;
