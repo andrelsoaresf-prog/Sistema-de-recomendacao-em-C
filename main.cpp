@@ -8,7 +8,7 @@
 using namespace std;
 
 typedef struct {
-    int Data;
+    char Data[20];
     char CodCliente[10];
     int CodProduto;
     char NomeProduto[100];
@@ -31,8 +31,8 @@ int main(){
 
     fgets(cabeçalho, sizeof(cabeçalho), arquivo);
 
-    while (fscanf(arquivo, "%d; %9[^;]; %d; %99[^\n]\n",
-        &dados.Data,
+    while (fscanf(arquivo, "%[^;]; %9[^;]; %d; %99[^\n]\n",
+        dados.Data,
         dados.CodCliente,
         &dados.CodProduto,
         dados.NomeProduto) == 4)
