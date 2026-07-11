@@ -19,6 +19,7 @@ int main(){
     Dados dados;
     char cabeçalho[256];
     vector<string> vetorCliente;
+    vector<int> vetorProduto;
 
     arquivo = fopen("dados/dados_venda_cluster_0.csv", "r");
     if (arquivo == NULL){
@@ -37,13 +38,21 @@ int main(){
         //printf("Data: %d | Código do cliente: %s | Código do produto: %d | Nome do produto: %s\n", 
             //dados.Data, dados.CodCliente, dados.CodProduto, dados.NomeProduto);
         vetorCliente.push_back(dados.CodCliente);
+        vetorProduto.push_back(dados.CodProduto);
     }
 
-    for (int i = 0; i < size(vetorCliente); i++){
-        cout << "código do cliente: " << vetorCliente[i] << endl;
+    //for (int i = 0; i < size(vetorCliente); i++){
+        //cout << "código do cliente: " << vetorCliente[i] << endl;
+    //}
+
+    //cout << "quantidade de clientes: " << size(vetorCliente) << endl;
+
+    for (int i = 0; i < size(vetorProduto); i++){
+        cout << vetorProduto[i] << endl;
     }
 
-    cout << "quantidade de clientes: " << size(vetorCliente) << endl;
+    cout << size(vetorProduto) << endl;
+    
     
     fclose(arquivo);
     return 0;
