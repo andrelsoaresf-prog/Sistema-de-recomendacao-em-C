@@ -16,13 +16,13 @@ typedef struct {
 } Dados;
 
 typedef struct {
-    vector<int> vetorProduto;
-    vector<string> vetorCliente;
+    vector<int> Produto;
+    vector<string> Cliente;
 } Vetor;
 
 typedef struct {
-    map<string, int> mapaCliente;
-    map<int, int> mapaProduto;
+    map<string, int> Cliente;
+    map<int, int> Produto;
 } Mapa;
 
 int main(){
@@ -39,37 +39,54 @@ int main(){
 
     fgets(dados.cabeçalho, sizeof(dados.cabeçalho), arquivo);
 
-    while (fscanf(arquivo, "%[^;]; %9[^;]; %d; %99[^\n]\n",
+    while (fscanf(arquivo, "%[^;];%9[^;];%d;%99[^\n]\n",
         dados.Data,
         dados.CodCliente,
         &dados.CodProduto,
         dados.NomeProduto) == 4)
     {
-        vetor.vetorCliente.push_back(dados.CodCliente);
-        vetor.vetorProduto.push_back(dados.CodProduto);
+        vetor.Cliente.push_back(dados.CodCliente);
+        vetor.Produto.push_back(dados.CodProduto);
     }
 
-    for (int i = 0; i < vetor.vetorCliente.size(); i++){
-        string cliente = vetor.vetorCliente[i];
+    for (int i = 0; i < vetor.Cliente.size(); i++){
+        string cliente = vetor.Cliente[i];
 
-        if (mapa.mapaCliente.find(cliente) == mapa.mapaCliente.end()){
-            mapa.mapaCliente[cliente] = mapa.mapaCliente.size();
+        if (mapa.Cliente.find(cliente) == mapa.Cliente.end()){
+            mapa.Cliente[cliente] = mapa.Cliente.size();
         }
     }
 
-    for (int i = 0; i < vetor.vetorProduto.size(); i++){
-        int produto = vetor.vetorProduto[i];
+    for (int i = 0; i < vetor.Produto.size(); i++){
+        int produto = vetor.Produto[i];
 
-        if (mapa.mapaProduto.find(produto) == mapa.mapaProduto.end()){
-            mapa.mapaProduto[produto] = mapa.mapaProduto.size();
+        if (mapa.Produto.find(produto) == mapa.Produto.end()){
+            mapa.Produto[produto] = mapa.Produto.size();
         }
     }
 
-    for (auto& p : mapa.mapaProduto){
-        cout << p.first << "->" << p.second << endl;
+    vector<list<int>> listaCompras(mapa.Cliente.size());
+
+    for (int i = 0; i < vetor.Cliente.size(); i++) {
+
+        string cliente = vetor.Cliente[i];
+        int produto = vetor.Produto[i];
+
+        int idCliente = mapa.Cliente[cliente];
+        int idProduto = mapa.Produto[produto];
+
+        listaCompras[idCliente].push_back(idProduto);
     }
 
-
+    for (int i = 0; i < listaCompras.size(); i++) {
+    cout << "Cliente ID " << i << " comprou os produtos: ";
+    
+    for (int idProduto : listaCompras[i]) {
+        cout << idProduto << " ";
+    }
+    
+    cout << endl; 
+}
     
     fclose(arquivo);
     return 0;
