@@ -8,7 +8,7 @@
 using namespace std;
 
 typedef struct {
-    char cabeçalho[256];
+    char cabecalho[256];
     char Data[20];
     char CodCliente[10];
     int CodProduto;
@@ -37,7 +37,7 @@ int main(){
         return 1;
     }
 
-    fgets(dados.cabeçalho, sizeof(dados.cabeçalho), arquivo);
+    fgets(dados.cabecalho, sizeof(dados.cabecalho), arquivo);
 
     while (fscanf(arquivo, "%[^;];%9[^;];%d;%99[^\n]\n",
         dados.Data,
@@ -49,19 +49,25 @@ int main(){
         vetor.Produto.push_back(dados.CodProduto);
     }
 
+    int contador = 0;
+
     for (int i = 0; i < vetor.Cliente.size(); i++){
         string cliente = vetor.Cliente[i];
 
         if (mapa.Cliente.find(cliente) == mapa.Cliente.end()){
-            mapa.Cliente[cliente] = mapa.Cliente.size();
+            mapa.Cliente[cliente] = contador;
+            contador++;
         }
     }
+
+    contador = 0;
 
     for (int i = 0; i < vetor.Produto.size(); i++){
         int produto = vetor.Produto[i];
 
         if (mapa.Produto.find(produto) == mapa.Produto.end()){
-            mapa.Produto[produto] = mapa.Produto.size();
+            mapa.Produto[produto] = contador;
+            contador++;
         }
     }
 
@@ -86,7 +92,10 @@ int main(){
     }
     
     cout << endl; 
-}
+    }
+
+    cout << "tem: " << mapa.Cliente.size() << " clientes" << endl;
+    cout << "tem: " << mapa.Produto.size() << " produtos" << endl;
     
     fclose(arquivo);
     return 0;
