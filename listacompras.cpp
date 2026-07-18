@@ -57,7 +57,8 @@ int listacompras(char* nomeArquivo){
 
         listacompras.VetorLista[idCliente].push_back(idProduto);
     }
-    
+
+    testador(&listacompras);
     fclose(arquivo);
     return 0;
 }
@@ -66,7 +67,7 @@ void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
     int indiceCliente;
 
     if (listacompras->MapaCliente.find(CodCliente) == listacompras->MapaCliente.end()){
-        printf("Cliente não encontrado");
+        printf("Cliente não encontrado\n");
     } else{
         indiceCliente = listacompras->MapaCliente[CodCliente];
 
@@ -76,4 +77,14 @@ void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
             cout << "-" << produto << endl;
         }
     }
+}
+
+void testador(ListaCompras *listacompras){
+    char cliente1[] = "YZ0VPF01";
+    char cliente2[] = "9NZCFG01";
+    char cliente3[] = "78299701";
+
+    mostrarProdutos(listacompras, cliente1);
+    mostrarProdutos(listacompras, cliente2);
+    mostrarProdutos(listacompras, cliente3);
 }
