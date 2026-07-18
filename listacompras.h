@@ -25,6 +25,6 @@ typedef struct {
     map<int, int> Produto;
 } Mapa;
 
-int listacompras();
+int listacompras(char* nomeArquivo);
 
 #endif

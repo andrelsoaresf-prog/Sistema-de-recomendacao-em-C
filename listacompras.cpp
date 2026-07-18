@@ -5,13 +5,15 @@
 #include "listacompras.h"
 using namespace std;
 
-int listacompras(){
+int listacompras(char* nomeArquivo){
     FILE *arquivo;
     Dados dados;
     Vetor vetor;
     Mapa mapa;
+    char caminhocompleto[100];
+    sprintf(caminhocompleto, "dados/%s", nomeArquivo);
 
-    arquivo = fopen("dados/dados_venda_cluster_1.csv", "r");
+    arquivo = fopen(caminhocompleto, "r");
     if (arquivo == NULL){
         printf("deu ruim");
         return 1;
