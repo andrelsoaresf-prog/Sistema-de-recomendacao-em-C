@@ -16,15 +16,14 @@ typedef struct {
 } Dados;
 
 typedef struct {
-    vector<int> Produto;
-    vector<string> Cliente;
-} Vetor;
-
-typedef struct {
-    map<string, int> Cliente;
-    map<int, int> Produto;
-} Mapa;
+    vector<int> VetorProduto;
+    vector<string> VetorCliente;
+    map<string, int> MapaCliente;
+    map<int, int> MapaProduto;
+    vector<list<int>> VetorLista;
+} ListaCompras;
 
 int listacompras(char* nomeArquivo);
+void mostrarProdutos(ListaCompras *listacompras, char* CodCliente);
 
 #endif

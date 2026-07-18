@@ -8,12 +8,9 @@ using namespace std;
 int listacompras(char* nomeArquivo){
     FILE *arquivo;
     Dados dados;
-    Vetor vetor;
-    Mapa mapa;
-    char caminhocompleto[100];
-    sprintf(caminhocompleto, "dados/%s", nomeArquivo);
+    ListaCompras listacompras;
 
-    arquivo = fopen(caminhocompleto, "r");
+    arquivo = fopen(nomeArquivo, "r");
     if (arquivo == NULL){
         printf("deu ruim");
         return 1;
@@ -27,55 +24,56 @@ int listacompras(char* nomeArquivo){
         &dados.CodProduto,
         dados.NomeProduto) == 4)
     {
-        vetor.Cliente.push_back(dados.CodCliente);
-        vetor.Produto.push_back(dados.CodProduto);
+        listacompras.VetorCliente.push_back(dados.CodCliente);
+        listacompras.VetorProduto.push_back(dados.CodProduto);
     }
 
-    int contador = 0;
+    int contadorCliente = 0, contadorProduto = 0;
 
-    for (int i = 0; i < vetor.Cliente.size(); i++){
-        string cliente = vetor.Cliente[i];
+    for (int i = 0; i < listacompras.VetorCliente.size(); i++){
+        string cliente = listacompras.VetorCliente[i];
+        int produto = listacompras.VetorProduto[i];
 
-        if (mapa.Cliente.find(cliente) == mapa.Cliente.end()){
-            mapa.Cliente[cliente] = contador;
-            contador++;
+        if (listacompras.MapaCliente.find(cliente) == listacompras.MapaCliente.end()){
+            listacompras.MapaCliente[cliente] = contadorCliente;
+            contadorCliente++;
+        }
+
+        if (listacompras.MapaProduto.find(produto) == listacompras.MapaProduto.end()){
+            listacompras.MapaProduto[produto] = contadorProduto;
+            contadorProduto++;
         }
     }
 
-    contador = 0;
+    listacompras.VetorLista.resize(listacompras.MapaCliente.size());
 
-    for (int i = 0; i < vetor.Produto.size(); i++){
-        int produto = vetor.Produto[i];
+    for (int i = 0; i < listacompras.VetorCliente.size(); i++) {
 
-        if (mapa.Produto.find(produto) == mapa.Produto.end()){
-            mapa.Produto[produto] = contador;
-            contador++;
-        }
-    }
+        string cliente = listacompras.VetorCliente[i];
+        int produto = listacompras.VetorProduto[i];
 
-    vector<list<int>> ListaCompras(mapa.Cliente.size());
+        int idCliente = listacompras.MapaCliente[cliente];
+        int idProduto = listacompras.MapaProduto[produto];
 
-    for (int i = 0; i < vetor.Cliente.size(); i++) {
-
-        string cliente = vetor.Cliente[i];
-        int produto = vetor.Produto[i];
-
-        int idCliente = mapa.Cliente[cliente];
-        int idProduto = mapa.Produto[produto];
-
-        ListaCompras[idCliente].push_back(idProduto);
-    }
-
-    for (int i = 0; i < ListaCompras.size(); i++) {
-    cout << "Cliente ID " << i << " comprou os produtos: ";
-    
-    for (int idProduto : ListaCompras[i]) {
-        cout << idProduto << " ";
-    }
-    
-    cout << endl; 
+        listacompras.VetorLista[idCliente].push_back(idProduto);
     }
     
     fclose(arquivo);
     return 0;
+}
+
+void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
+    int indiceCliente;
+
+    if (listacompras->MapaCliente.find(CodCliente) == listacompras->MapaCliente.end()){
+        printf("Cliente não encontrado");
+    } else{
+        indiceCliente = listacompras->MapaCliente[CodCliente];
+
+        printf("O cliente %s comprou:\n", CodCliente);
+
+        for (int produto : listacompras->VetorLista[indiceCliente]){
+            cout << "-" << produto << endl;
+        }
+    }
 }
