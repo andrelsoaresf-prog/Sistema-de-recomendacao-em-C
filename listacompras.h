@@ -1,5 +1,5 @@
 #ifndef _listacompras_H_
-#define _lsitacompras_H_
+#define _listacompras_H_
 
 #include <string.h>
 #include <iostream>

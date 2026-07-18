@@ -3,6 +3,7 @@
 #include <string.h>
 #include <iostream>
 #include "listacompras.h"
+#include "Similaridade.h"
 using namespace std;
 
 int listacompras(char* nomeArquivo){
@@ -59,6 +60,7 @@ int listacompras(char* nomeArquivo){
     }
 
     testador(&listacompras);
+    similaridade(&listacompras);
     fclose(arquivo);
     return 0;
 }
