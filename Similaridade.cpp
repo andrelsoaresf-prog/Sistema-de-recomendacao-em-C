@@ -33,4 +33,29 @@ void similaridade(ListaCompras *listacompras){
             MatrizTransposta[j][i] = MatrizCompras[i][j];
         }
     }
+    
+    int **MatrizIntersecao = (int **) malloc(NumeroClientes * sizeof(int*));
+    for (int i = 0; i < NumeroClientes; i++){
+        MatrizIntersecao[i] = (int *) malloc(NumeroClientes * sizeof(int));
+    }
+
+    for (int i = 0; i < NumeroClientes; i++){
+        for (int j = 0; j < NumeroClientes; j++){
+            MatrizIntersecao[i][j] = 0;
+            for (int a = 0; a < NumeroClientes; a++){
+                MatrizIntersecao[i][j] += MatrizCompras[i][a] * MatrizTransposta[a][j];
+            }
+        }
+    }
+
+    int **MatrizSimilaridade = (int **) malloc(NumeroClientes * sizeof(int*));
+    for (int i = 0; i < NumeroClientes; i++){
+        MatrizSimilaridade[i] = (int *) malloc(NumeroClientes * sizeof(int));
+    }
+
+    for (int i = 0; i < NumeroClientes; i++){
+        for (int j = 0; j < NumeroClientes; j++){
+            MatrizSimilaridade[i][j] = 1 - MatrizIntersecao[i][j]/NumeroProdutos;
+        }
+    }
 }
