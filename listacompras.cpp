@@ -89,4 +89,6 @@ void testador(ListaCompras *listacompras){
     mostrarProdutos(listacompras, cliente1);
     mostrarProdutos(listacompras, cliente2);
     mostrarProdutos(listacompras, cliente3);
+
+    similaridade(listacompras);
 }

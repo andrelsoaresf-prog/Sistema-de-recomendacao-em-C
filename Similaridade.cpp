@@ -58,4 +58,25 @@ void similaridade(ListaCompras *listacompras){
             MatrizSimilaridade[i][j] = 1 - MatrizIntersecao[i][j]/NumeroProdutos;
         }
     }
+    printf("\nMatriz de Compras: \n");
+    for (int i = 0; i<NumeroClientes; i++){
+        for (int j = 0; j<NumeroProdutos; j++){
+            printf("[%d][%d]:%d ", i, j, MatrizCompras[i][j]);
+        }
+    }
+    printf("\nMatriz Transposta: \n");
+
+    for (int i = 0; i<NumeroProdutos; i++){
+        for (int j = 0; j<NumeroClientes; j++){
+            printf("[%d][%d]:%d ", i, j, MatrizTransposta[i][j]);
+        }
+    }
+
+    printf("\nMatriz Similaridade: \n");
+
+    for (int i = 0; i<NumeroClientes; i++){
+        for (int j = 0; j<NumeroClientes; j++){
+            printf("[%d][%d]:%d ", i, j, MatrizSimilaridade[i][j]);
+        }
+    }
 }
