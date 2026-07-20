@@ -6,16 +6,10 @@
 #include "Similaridade.h"
 #include "Recomendacao.h"
 using namespace std;
-#include <stdlib.h>
 
-void similaridade(ListaCompras *listacompras, int IDcliente1, int *IDcliente2){
+void similaridade(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras){
     int NumeroClientes = listacompras->MapaCliente.size();
     int NumeroProdutos = listacompras->MapaProduto.size();
-
-    int **MatrizCompras = (int **) malloc(NumeroClientes * sizeof(int*));
-    for (int i = 0; i < NumeroClientes; i++){
-        MatrizCompras[i] = (int *) malloc(NumeroProdutos * sizeof(int));
-    }
 
     for (int i = 0; i < NumeroClientes; i++) {
         for (int j = 0; j < NumeroProdutos; j++) {
@@ -49,46 +43,51 @@ void similaridade(ListaCompras *listacompras, int IDcliente1, int *IDcliente2){
         for (int j = 0; j < NumeroClientes; j++){
             MatrizIntersecao[i][j] = 0;
             for (int a = 0; a < NumeroProdutos; a++){
-                MatrizIntersecao[i][j] = MatrizIntersecao[i][j] + MatrizCompras[i][a] * MatrizTransposta[a][j];
+                MatrizIntersecao[i][j] += MatrizCompras[i][a] * MatrizTransposta[a][j];
             }
         }
-    }
-
-    double **MatrizSimilaridade = (double **) malloc(NumeroClientes * sizeof(double*));
-    for (int i = 0; i < NumeroClientes; i++){
-        MatrizSimilaridade[i] = (double *) malloc(NumeroClientes * sizeof(double));
     }
 
     for (int i = 0; i < NumeroClientes; i++){
         for (int j = 0; j < NumeroClientes; j++){
-        MatrizSimilaridade[i][j] = 1.0 - ((double)MatrizIntersecao[i][j] / MatrizIntersecao[i][i]);
+                MatrizSimilaridade[i][j] = 1.0 - ((double)MatrizIntersecao[i][j] / MatrizIntersecao[i][i]);
         }
     }
 
+
+    for (int i = 0; i < NumeroProdutos; i++){
+        free(MatrizTransposta[i]);
+    }
+    free(MatrizTransposta);
+
+    for (int i = 0; i < NumeroClientes; i++){
+        free(MatrizIntersecao[i]);
+    }
+    free(MatrizIntersecao);
+}
+
+void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int IDcliente1){
+    int NumeroClientes = listacompras->MapaCliente.size();
+    int IDcliente2 = -1;
     double menor = 1.0;
+
     for (int j = 0; j < NumeroClientes; j++){
         if (IDcliente1 != j){
             if (menor > MatrizSimilaridade[IDcliente1][j]){
                 menor = MatrizSimilaridade[IDcliente1][j];
-                *IDcliente2 = j;
+                IDcliente2 = j;
             }
         }
     }
 
-    recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente1);
+    printf("O cliente mais similar com o Cliente %d, é o Cliente %d (Distância: %.4f)\n", IDcliente1, IDcliente2, menor);
 }
 
-void clienteSimilar(ListaCompras *listacompras, int IDcliente1){
-    int IDcliente2 = -1;
-    similaridade(listacompras, IDcliente1, &IDcliente2);
-
-    printf("O cliente mais similar com o Cliente %d, é o Cliente %d\n", IDcliente1, IDcliente2);
-}
-
-void testadorATV2(ListaCompras *listacompras){
+void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade){
     int IDcliente1 = 4;
     int IDcliente2 = 0;
 
-    clienteSimilar(listacompras, IDcliente1);
-    clienteSimilar(listacompras, IDcliente2);
+    cout << "\n================ ATIVIDADE 2 ================" << endl;
+    clienteSimilar(listacompras, MatrizSimilaridade, IDcliente1);
+    clienteSimilar(listacompras, MatrizSimilaridade, IDcliente2);
 }

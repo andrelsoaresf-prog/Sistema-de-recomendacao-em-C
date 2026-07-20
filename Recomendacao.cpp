@@ -1,13 +1,9 @@
 #include "Recomendacao.h"
 #include "Similaridade.h"
-#include "Similaridade.h"
 #include <algorithm>
 
 bool compararPorRank(const Ranqueamento &a, const Ranqueamento &b){
-    if (a.rank < b.rank)
-        return true;
-    else
-        return false;
+    return a.rank < b.rank;
 }
 
 void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, int IDcliente){
@@ -17,7 +13,7 @@ void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int *
 
     for (int j = 0; j < NumeroCLientes; j++){
         if (IDcliente != j){
-            if(MatrizSimilaridade[IDcliente][j] < 1){
+            if(MatrizSimilaridade[IDcliente][j] < 1.0){
                 listaSimilaridade.push_back(j);
             }
         }
@@ -26,7 +22,7 @@ void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int *
     vector<Ranqueamento> R(NumeroProdutos);
     for(int i = 0; i < NumeroProdutos; i++){
         R[i].idproduto = i;
-        R[i].rank = 1;
+        R[i].rank = 1.0; 
     }
 
     for (int s = 0; s < listaSimilaridade.size(); s++){
@@ -42,7 +38,7 @@ void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int *
     std::sort(R.begin(), R.end(), compararPorRank);
 
     for(int i = 0; i < listacompras->k; i++){
-        cout << "produto: " << R[i].idproduto << "rank: " << R[i].rank << endl;
+        cout << "Produto ID: " << R[i].idproduto << " | Rank: " << R[i].rank << endl;
     }
 }
 
@@ -55,12 +51,13 @@ void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int *
     int IDcliente2 = listacompras->MapaCliente[Cliente2];
     int IDcliente3 = listacompras->MapaCliente[Cliente3];
 
-    cout << "\n--- RECOMENDAÇÕES CLIENTE 1 ---" << endl;
+    cout << "\n================ ATIVIDADE 3 ================" << endl;
+    cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente1 << " (ID: " << IDcliente1 << ") ---" << endl;
     recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente1);
     
-    cout << "\n--- RECOMENDAÇÕES CLIENTE 2 ---" << endl;
+    cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente2 << " (ID: " << IDcliente2 << ") ---" << endl;
     recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente2);
     
-    cout << "\n--- RECOMENDAÇÕES CLIENTE 3 ---" << endl;
+    cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente3 << " (ID: " << IDcliente3 << ") ---" << endl;
     recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente3);
 }

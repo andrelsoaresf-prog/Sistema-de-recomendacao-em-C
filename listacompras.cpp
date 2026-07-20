@@ -4,6 +4,7 @@
 #include <iostream>
 #include "listacompras.h"
 #include "Similaridade.h"
+#include "Recomendacao.h" 
 using namespace std;
 
 int listacompras(char* nomeArquivo, int k){
@@ -13,7 +14,7 @@ int listacompras(char* nomeArquivo, int k){
 
     arquivo = fopen(nomeArquivo, "r");
     if (arquivo == NULL){
-        printf("deu ruim");
+        printf("Erro ao abrir arquivo csv.\n");
         return 1;
     }
 
@@ -28,6 +29,7 @@ int listacompras(char* nomeArquivo, int k){
         listacompras.VetorCliente.push_back(dados.CodCliente);
         listacompras.VetorProduto.push_back(dados.CodProduto);
     }
+    fclose(arquivo);
 
     int contadorCliente = 0, contadorProduto = 0;
 
@@ -49,7 +51,6 @@ int listacompras(char* nomeArquivo, int k){
     listacompras.VetorLista.resize(listacompras.MapaCliente.size());
 
     for (int i = 0; i < listacompras.VetorCliente.size(); i++) {
-
         string cliente = listacompras.VetorCliente[i];
         int produto = listacompras.VetorProduto[i];
 
@@ -61,8 +62,34 @@ int listacompras(char* nomeArquivo, int k){
 
     listacompras.k = k;
 
-    testadorATV2(&listacompras);
-    fclose(arquivo);
+
+    int NumeroClientes = listacompras.MapaCliente.size();
+    int NumeroProdutos = listacompras.MapaProduto.size();
+
+    int **MatrizCompras = (int **) malloc(NumeroClientes * sizeof(int*));
+    for (int i = 0; i < NumeroClientes; i++){
+        MatrizCompras[i] = (int *) malloc(NumeroProdutos * sizeof(int));
+    }
+
+    double **MatrizSimilaridade = (double **) malloc(NumeroClientes * sizeof(double*));
+    for (int i = 0; i < NumeroClientes; i++){
+        MatrizSimilaridade[i] = (double *) malloc(NumeroClientes * sizeof(double));
+    }
+
+
+    similaridade(&listacompras, MatrizSimilaridade, MatrizCompras);
+
+    testadorATV1(&listacompras);
+    testadorATV2(&listacompras, MatrizSimilaridade);
+    testadorATV3(&listacompras, MatrizSimilaridade, MatrizCompras);
+
+    for (int i = 0; i < NumeroClientes; i++) {
+        free(MatrizCompras[i]);
+        free(MatrizSimilaridade[i]);
+    }
+    free(MatrizCompras);
+    free(MatrizSimilaridade);
+
     return 0;
 }
 
@@ -70,7 +97,7 @@ void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
     int indiceCliente;
 
     if (listacompras->MapaCliente.find(CodCliente) == listacompras->MapaCliente.end()){
-        printf("Cliente não encontrado\n");
+        printf("Cliente %s não encontrado\n", CodCliente);
     } else{
         indiceCliente = listacompras->MapaCliente[CodCliente];
 
@@ -87,6 +114,7 @@ void testadorATV1(ListaCompras *listacompras){
     char cliente2[] = "9NZCFG01";
     char cliente3[] = "78299701";
 
+    cout << "\n================ ATIVIDADE 1 ================" << endl;
     mostrarProdutos(listacompras, cliente1);
     mostrarProdutos(listacompras, cliente2);
     mostrarProdutos(listacompras, cliente3);

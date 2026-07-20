@@ -3,8 +3,8 @@
 
 #include "listacompras.h"
 
-void similaridade(ListaCompras *listacompras, int IDcliente1, int *IDcliente2);
-void testadorATV2(ListaCompras *listacompras);
-void clienteSimilar(ListaCompras *listacompras, int IDcliente1);
+void similaridade(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras);
+void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade);
+void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int IDcliente1);
 
 #endif
