@@ -21,8 +21,8 @@ typedef struct {
     vector<string> VetorNomeProduto;
     map<string, int> MapaCliente;
     map<int, int> MapaProduto;
-    map<string, int> MapaNomeProduto;
     vector<list<int>> VetorLista;
+    vector<string> NomesProdutosUnicos;
     int k;
 } ListaCompras;
 

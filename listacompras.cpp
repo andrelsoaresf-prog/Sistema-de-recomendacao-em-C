@@ -32,7 +32,7 @@ int listacompras(char* nomeArquivo, int k){
     }
     fclose(arquivo);
 
-    int contadorCliente = 0, contadorProduto = 0, contadorNomeProduto = 0;
+    int contadorCliente = 0, contadorProduto = 0;
 
     for (int i = 0; i < listacompras.VetorCliente.size(); i++){
         string cliente = listacompras.VetorCliente[i];
@@ -46,12 +46,8 @@ int listacompras(char* nomeArquivo, int k){
 
         if (listacompras.MapaProduto.find(produto) == listacompras.MapaProduto.end()){
             listacompras.MapaProduto[produto] = contadorProduto;
+            listacompras.NomesProdutosUnicos.push_back(NomeProduto);
             contadorProduto++;
-        }
-
-        if (listacompras.MapaNomeProduto.find(NomeProduto) == listacompras.MapaNomeProduto.end()){
-            listacompras.MapaNomeProduto[NomeProduto] = contadorNomeProduto;
-            contadorNomeProduto++;
         }
     }
 
@@ -144,7 +140,7 @@ void testadorATV1(ListaCompras *listacompras){
     char cliente2[] = "9NZCFG01";
     char cliente3[] = "78299701";
 
-    cout << "\n================ ATIVIDADE 1 ================" << endl;
+    cout << "\n------------- ATIVIDADE 1 -------------" << endl;
     mostrarProdutos(listacompras, cliente1);
     mostrarProdutos(listacompras, cliente2);
     mostrarProdutos(listacompras, cliente3);

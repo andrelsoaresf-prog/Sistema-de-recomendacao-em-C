@@ -25,14 +25,14 @@ int similaridade(ListaCompras *listacompras, double **MatrizSimilaridade, int **
 
     int **MatrizTransposta = (int **) malloc(NumeroProdutos * sizeof(int *));
     if(MatrizTransposta == NULL){
-        printf("erro na memória");
+        printf("erro de memória");
         return 1;
     }
     for (int i = 0; i < NumeroProdutos; i++){
         MatrizTransposta[i] = (int *) malloc(NumeroClientes * sizeof(int));
 
         if(MatrizTransposta[i] == NULL){
-            printf("erro na memória");
+            printf("erro de memória");
             return 1;
         }
     }
@@ -45,14 +45,14 @@ int similaridade(ListaCompras *listacompras, double **MatrizSimilaridade, int **
     
     int **MatrizIntersecao = (int **) malloc(NumeroClientes * sizeof(int*));
     if(MatrizIntersecao == NULL){
-        printf("erro na memória");
+        printf("erro de memória");
         return 1;
     }
     for (int i = 0; i < NumeroClientes; i++){
         MatrizIntersecao[i] = (int *) malloc(NumeroClientes * sizeof(int));
 
         if(MatrizIntersecao[i] == NULL){
-            printf("erro na memória");
+            printf("erro de memória");
             return 1;
         }
     }
@@ -109,7 +109,7 @@ void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade){
     int IDcliente1 = 7;
     int IDcliente2 = 13;
 
-    cout << "\n================ ATIVIDADE 2 ================" << endl;
+    cout << "\n------------- ATIVIDADE 2 -------------" << endl;
     clienteSimilar(listacompras, MatrizSimilaridade, IDcliente1);
     clienteSimilar(listacompras, MatrizSimilaridade, IDcliente2);
 }
