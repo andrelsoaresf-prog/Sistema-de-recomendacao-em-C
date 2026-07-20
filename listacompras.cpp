@@ -6,7 +6,7 @@
 #include "Similaridade.h"
 using namespace std;
 
-int listacompras(char* nomeArquivo){
+int listacompras(char* nomeArquivo, int k){
     FILE *arquivo;
     Dados dados;
     ListaCompras listacompras;
@@ -58,6 +58,8 @@ int listacompras(char* nomeArquivo){
 
         listacompras.VetorLista[idCliente].push_back(idProduto);
     }
+
+    listacompras.k = k;
 
     testadorATV2(&listacompras);
     fclose(arquivo);

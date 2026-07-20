@@ -4,6 +4,7 @@
 #include <iostream>
 #include "listacompras.h"
 #include "Similaridade.h"
+#include "Recomendacao.h"
 using namespace std;
 #include <stdlib.h>
 
@@ -73,7 +74,8 @@ void similaridade(ListaCompras *listacompras, int IDcliente1, int *IDcliente2){
             }
         }
     }
-    printf("Valor da similaridade é: %f\n", menor);
+
+    recomendacao(listacompras, MatrizSimilaridade, IDcliente1);
 }
 
 void clienteSimilar(ListaCompras *listacompras, int IDcliente1){

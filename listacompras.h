@@ -21,9 +21,10 @@ typedef struct {
     map<string, int> MapaCliente;
     map<int, int> MapaProduto;
     vector<list<int>> VetorLista;
+    int k;
 } ListaCompras;
 
-int listacompras(char* nomeArquivo);
+int listacompras(char* nomeArquivo, int k);
 void mostrarProdutos(ListaCompras *listacompras, char* CodCliente);
 void testadorATV1(ListaCompras *listacompras);
 
