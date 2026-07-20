@@ -3,7 +3,7 @@
 
 #include "listacompras.h"
 
-void similaridade(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras);
+int similaridade(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras);
 void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade);
 void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int IDcliente1);
 

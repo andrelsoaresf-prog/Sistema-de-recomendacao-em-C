@@ -28,14 +28,16 @@ int listacompras(char* nomeArquivo, int k){
     {
         listacompras.VetorCliente.push_back(dados.CodCliente);
         listacompras.VetorProduto.push_back(dados.CodProduto);
+        listacompras.VetorNomeProduto.push_back(dados.NomeProduto);
     }
     fclose(arquivo);
 
-    int contadorCliente = 0, contadorProduto = 0;
+    int contadorCliente = 0, contadorProduto = 0, contadorNomeProduto = 0;
 
     for (int i = 0; i < listacompras.VetorCliente.size(); i++){
         string cliente = listacompras.VetorCliente[i];
         int produto = listacompras.VetorProduto[i];
+        string NomeProduto = listacompras.VetorNomeProduto[i];
 
         if (listacompras.MapaCliente.find(cliente) == listacompras.MapaCliente.end()){
             listacompras.MapaCliente[cliente] = contadorCliente;
@@ -45,6 +47,11 @@ int listacompras(char* nomeArquivo, int k){
         if (listacompras.MapaProduto.find(produto) == listacompras.MapaProduto.end()){
             listacompras.MapaProduto[produto] = contadorProduto;
             contadorProduto++;
+        }
+
+        if (listacompras.MapaNomeProduto.find(NomeProduto) == listacompras.MapaNomeProduto.end()){
+            listacompras.MapaNomeProduto[NomeProduto] = contadorNomeProduto;
+            contadorNomeProduto++;
         }
     }
 
@@ -67,13 +74,33 @@ int listacompras(char* nomeArquivo, int k){
     int NumeroProdutos = listacompras.MapaProduto.size();
 
     int **MatrizCompras = (int **) malloc(NumeroClientes * sizeof(int*));
+    if(MatrizCompras == NULL){
+        printf("erro na memória");
+        return 1;
+    }
+    
     for (int i = 0; i < NumeroClientes; i++){
         MatrizCompras[i] = (int *) malloc(NumeroProdutos * sizeof(int));
+
+        if (MatrizCompras[i] == NULL){
+            printf("erro na memória");
+            return 1;
+        }
     }
 
     double **MatrizSimilaridade = (double **) malloc(NumeroClientes * sizeof(double*));
+    if(MatrizSimilaridade == NULL){
+        printf("erro na memória");
+        return 1;
+    }
+    
     for (int i = 0; i < NumeroClientes; i++){
         MatrizSimilaridade[i] = (double *) malloc(NumeroClientes * sizeof(double));
+
+        if (MatrizSimilaridade[i] == NULL){
+            printf("erro na memória");
+            return 1;
+        }
     }
 
 
@@ -88,7 +115,10 @@ int listacompras(char* nomeArquivo, int k){
         free(MatrizSimilaridade[i]);
     }
     free(MatrizCompras);
+    MatrizCompras = NULL;
+
     free(MatrizSimilaridade);
+    MatrizSimilaridade = NULL;
 
     return 0;
 }

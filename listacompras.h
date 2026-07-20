@@ -18,8 +18,10 @@ typedef struct {
 typedef struct {
     vector<int> VetorProduto;
     vector<string> VetorCliente;
+    vector<string> VetorNomeProduto;
     map<string, int> MapaCliente;
     map<int, int> MapaProduto;
+    map<string, int> MapaNomeProduto;
     vector<list<int>> VetorLista;
     int k;
 } ListaCompras;
