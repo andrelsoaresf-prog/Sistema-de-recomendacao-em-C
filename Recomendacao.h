@@ -7,16 +7,12 @@
 using namespace std;
 
 typedef struct {
-    int indice;
+    int idproduto;
     double rank;
 } Ranqueamento;
 
-typedef struct {
-    list<int> lista;
-} Lista;
-
-void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int IDcliente);
-
+void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, int IDcliente);
+bool comparar(const Ranqueamento &a, const Ranqueamento &b);
 
 
 #endif

@@ -75,7 +75,7 @@ void similaridade(ListaCompras *listacompras, int IDcliente1, int *IDcliente2){
         }
     }
 
-    recomendacao(listacompras, MatrizSimilaridade, IDcliente1);
+    recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente1);
 }
 
 void clienteSimilar(ListaCompras *listacompras, int IDcliente1){
