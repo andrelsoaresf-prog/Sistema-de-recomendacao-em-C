@@ -1,5 +1,6 @@
 #include "listacompras.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char* argv[]){
 
@@ -9,6 +10,6 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
-    listacompras(argv[1], int(argv[2]));
+    listacompras(argv[1], atoi(argv[2]));
     return 0;
 }

@@ -3,6 +3,13 @@
 #include "Similaridade.h"
 #include <algorithm>
 
+bool compararPorRank(const Ranqueamento &a, const Ranqueamento &b){
+    if (a.rank < b.rank)
+        return true;
+    else
+        return false;
+}
+
 void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, int IDcliente){
     vector<int> listaSimilaridade;
     int NumeroCLientes = listacompras->MapaCliente.size();
@@ -27,7 +34,7 @@ void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int *
 
         for(int produto : listacompras->VetorLista[IDvizinho]){
             if (MatrizCompras[IDcliente][produto] == 0){
-                R[produto].rank = R[produto].rank * MatrizSimilaridade[IDcliente][s];
+                R[produto].rank = R[produto].rank * MatrizSimilaridade[IDcliente][IDvizinho];
             }
         }
     }
@@ -39,9 +46,21 @@ void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int *
     }
 }
 
-bool compararPorRank(const Ranqueamento &a, const Ranqueamento &b){
-    if (a.rank < b.rank)
-        return true;
-    else
-        return false;
+void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras){
+    string Cliente1 = "YZ0VPF01";
+    string Cliente2 = "9NZCFG01";
+    string Cliente3 = "78299701";
+
+    int IDcliente1 = listacompras->MapaCliente[Cliente1];
+    int IDcliente2 = listacompras->MapaCliente[Cliente2];
+    int IDcliente3 = listacompras->MapaCliente[Cliente3];
+
+    cout << "\n--- RECOMENDAÇÕES CLIENTE 1 ---" << endl;
+    recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente1);
+    
+    cout << "\n--- RECOMENDAÇÕES CLIENTE 2 ---" << endl;
+    recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente2);
+    
+    cout << "\n--- RECOMENDAÇÕES CLIENTE 3 ---" << endl;
+    recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente3);
 }
