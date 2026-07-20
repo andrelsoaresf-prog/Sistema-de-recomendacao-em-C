@@ -59,8 +59,7 @@ int listacompras(char* nomeArquivo){
         listacompras.VetorLista[idCliente].push_back(idProduto);
     }
 
-    testador(&listacompras);
-    similaridade(&listacompras);
+    testadorATV2(&listacompras);
     fclose(arquivo);
     return 0;
 }
@@ -81,7 +80,7 @@ void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
     }
 }
 
-void testador(ListaCompras *listacompras){
+void testadorATV1(ListaCompras *listacompras){
     char cliente1[] = "YZ0VPF01";
     char cliente2[] = "9NZCFG01";
     char cliente3[] = "78299701";
@@ -89,6 +88,4 @@ void testador(ListaCompras *listacompras){
     mostrarProdutos(listacompras, cliente1);
     mostrarProdutos(listacompras, cliente2);
     mostrarProdutos(listacompras, cliente3);
-
-    similaridade(listacompras);
 }

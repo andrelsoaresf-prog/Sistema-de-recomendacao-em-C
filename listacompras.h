@@ -25,6 +25,6 @@ typedef struct {
 
 int listacompras(char* nomeArquivo);
 void mostrarProdutos(ListaCompras *listacompras, char* CodCliente);
-void testador(ListaCompras *listacompras);
+void testadorATV1(ListaCompras *listacompras);
 
 #endif
