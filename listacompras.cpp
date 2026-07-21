@@ -137,7 +137,7 @@ void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
 
 void testadorATV1(ListaCompras *listacompras){
     char cliente1[] = "13574601";
-    char cliente2[] = "9NZCFG01";
+    char cliente2[] = "33653401";
     char cliente3[] = "78299701";
 
     cout << "\n------------- ATIVIDADE 1 -------------" << endl;

@@ -50,7 +50,7 @@ void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int *
 
 void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras){
     string Cliente1 = "13574601";
-    string Cliente2 = "9NZCFG01";
+    string Cliente2 = "33653401";
     string Cliente3 = "78299701";
     int IDcliente1, IDcliente2, IDcliente3;
 
