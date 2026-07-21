@@ -102,7 +102,7 @@ void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int
         }
     }
 
-    printf("O cliente mais similar com o Cliente %d, é o Cliente %d (Distância: %.4f)\n", IDcliente1, IDcliente2, menor);
+    printf("O cliente mais similar com o Cliente %d, é o Cliente %d (Similaridade: %f)\n", IDcliente1, IDcliente2, menor);
 }
 
 void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade){

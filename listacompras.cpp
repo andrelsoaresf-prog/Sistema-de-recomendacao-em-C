@@ -71,7 +71,7 @@ int listacompras(char* nomeArquivo, int k){
 
     int **MatrizCompras = (int **) malloc(NumeroClientes * sizeof(int*));
     if(MatrizCompras == NULL){
-        printf("erro na memória");
+        printf("erro de memória");
         return 1;
     }
     
@@ -79,14 +79,14 @@ int listacompras(char* nomeArquivo, int k){
         MatrizCompras[i] = (int *) malloc(NumeroProdutos * sizeof(int));
 
         if (MatrizCompras[i] == NULL){
-            printf("erro na memória");
+            printf("erro de memória");
             return 1;
         }
     }
 
     double **MatrizSimilaridade = (double **) malloc(NumeroClientes * sizeof(double*));
     if(MatrizSimilaridade == NULL){
-        printf("erro na memória");
+        printf("erro de memória");
         return 1;
     }
     
@@ -94,7 +94,7 @@ int listacompras(char* nomeArquivo, int k){
         MatrizSimilaridade[i] = (double *) malloc(NumeroClientes * sizeof(double));
 
         if (MatrizSimilaridade[i] == NULL){
-            printf("erro na memória");
+            printf("erro de memória");
             return 1;
         }
     }
@@ -136,7 +136,7 @@ void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
 }
 
 void testadorATV1(ListaCompras *listacompras){
-    char cliente1[] = "YZ0VPF01";
+    char cliente1[] = "13574601";
     char cliente2[] = "9NZCFG01";
     char cliente3[] = "78299701";
 
