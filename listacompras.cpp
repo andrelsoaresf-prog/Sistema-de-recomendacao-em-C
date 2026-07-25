@@ -98,9 +98,14 @@ int listacompras(char* nomeArquivo, int k){
             return 1;
         }
     }
+    int escolha;
+    printf("\n1 para algoritmo padrão de similaridade\n2 para algoritmo adaptado"); scanf("%d", &escolha);
+    if (escolha != 1 && escolha != 2){
+        printf("\nInválido! Escolha novamente.");
+        printf("\n1 para algoritmo padrão de similaridade\n2 para algoritmo adaptado"); scanf("%d", &escolha);
+    }
 
-
-    similaridade(&listacompras, MatrizSimilaridade, MatrizCompras);
+    similaridade(&listacompras, MatrizSimilaridade, MatrizCompras, escolha);
 
     testadorATV1(&listacompras);
     testadorATV2(&listacompras, MatrizSimilaridade);

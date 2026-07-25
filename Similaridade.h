@@ -3,8 +3,10 @@
 
 #include "listacompras.h"
 
-int similaridade(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras);
+int similaridadePadrao(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras);
 void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade);
 void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int IDcliente1);
+int similaridadeAdaptada(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras);
+int similaridade(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, int escolha);
 
 #endif
