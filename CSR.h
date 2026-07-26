@@ -13,7 +13,16 @@ typedef struct {
     vector<int> row_ptr;
 } CSR;
 
-void similaridadeCSR(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras);
+typedef struct {
+    int cont;
+    int soma;
+    int p;
+    int q;
+    int fimI;
+    int fimJ;
+} Auxiliar;
+
+CSR criarMatrizIntersecaoCSR(ListaCompras *listacompras, CSR MatrizCompras);
 CSR criarMatrizComprasCSR(ListaCompras *listacompras);
 
 #endif
