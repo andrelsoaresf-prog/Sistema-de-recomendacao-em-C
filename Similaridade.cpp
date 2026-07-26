@@ -104,3 +104,30 @@ void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int
 
     printf("O cliente mais similar com o Cliente %d, é o Cliente %d (Similaridade: %f)\n", IDcliente1, IDcliente2, menor);
 }
+
+CSR similiradadeCSR(ListaCompras *listacompras){
+    CSR MatrizCompras = criarMatrizComprasCSR(listacompras);
+    CSR MatrizIntersecao = criarMatrizIntersecaoCSR(listacompras, MatrizCompras);
+
+    CSR MatrizSimilaridade;
+    MatrizSimilaridade.numeroLinha = MatrizIntersecao.numeroLinha;
+    MatrizSimilaridade.numeroColuna = MatrizIntersecao.numeroColuna;
+
+    MatrizSimilaridade.row_ptr = MatrizIntersecao.row_ptr;
+    MatrizSimilaridade.col_index = MatrizIntersecao.col_index;
+
+    for(int i = 0; i < MatrizIntersecao.numeroLinha; i++){
+        double TotalProdutos = MatrizCompras.row_ptr[i+1] - MatrizCompras.row_ptr[i];
+
+        int inicio = MatrizIntersecao.row_ptr[i];
+        int fim = MatrizIntersecao.row_ptr[i + 1];
+
+        for (int idx = inicio; idx < fim; idx++){
+            double Interseção = MatrizIntersecao.values[idx];
+            double Similaridade = 1 - Interseção/TotalProdutos;
+            MatrizSimilaridade.values.push_back(Similaridade);
+        }
+    }
+
+    return MatrizSimilaridade;
+}
