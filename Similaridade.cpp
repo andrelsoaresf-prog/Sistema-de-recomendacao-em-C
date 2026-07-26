@@ -104,12 +104,3 @@ void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int
 
     printf("O cliente mais similar com o Cliente %d, é o Cliente %d (Similaridade: %f)\n", IDcliente1, IDcliente2, menor);
 }
-
-void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade){
-    int IDcliente1 = 7;
-    int IDcliente2 = 13;
-
-    cout << "\n------------- ATIVIDADE 2 -------------" << endl;
-    clienteSimilar(listacompras, MatrizSimilaridade, IDcliente1);
-    clienteSimilar(listacompras, MatrizSimilaridade, IDcliente2);
-}

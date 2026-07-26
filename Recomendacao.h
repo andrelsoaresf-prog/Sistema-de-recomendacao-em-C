@@ -13,7 +13,6 @@ typedef struct {
 
 void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, int IDcliente);
 bool compararPorRank(const Ranqueamento &a, const Ranqueamento &b);
-void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras);
 
 
 #endif

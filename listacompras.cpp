@@ -5,6 +5,7 @@
 #include "listacompras.h"
 #include "Similaridade.h"
 #include "Recomendacao.h" 
+#include "Testadores.h"
 using namespace std;
 
 int listacompras(char* nomeArquivo, int k){
@@ -102,9 +103,7 @@ int listacompras(char* nomeArquivo, int k){
 
     similaridade(&listacompras, MatrizSimilaridade, MatrizCompras);
 
-    testadorATV1(&listacompras);
-    testadorATV2(&listacompras, MatrizSimilaridade);
-    testadorATV3(&listacompras, MatrizSimilaridade, MatrizCompras);
+    escolhertestador(&listacompras, MatrizSimilaridade, MatrizCompras);
 
     for (int i = 0; i < NumeroClientes; i++) {
         free(MatrizCompras[i]);
@@ -133,15 +132,4 @@ void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
             cout << "-" << produto << endl;
         }
     }
-}
-
-void testadorATV1(ListaCompras *listacompras){
-    char cliente1[] = "13574601";
-    char cliente2[] = "33653401";
-    char cliente3[] = "78299701";
-
-    cout << "\n------------- ATIVIDADE 1 -------------" << endl;
-    mostrarProdutos(listacompras, cliente1);
-    mostrarProdutos(listacompras, cliente2);
-    mostrarProdutos(listacompras, cliente3);
 }

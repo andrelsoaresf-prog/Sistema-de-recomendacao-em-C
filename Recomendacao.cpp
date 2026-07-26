@@ -47,39 +47,3 @@ void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int *
         cout << "Produto: " << NomeProduto << " | Rank: " << VetorR[i].rank << endl;
     }
 }
-
-void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras){
-    string Cliente1 = "13574601";
-    string Cliente2 = "33653401";
-    string Cliente3 = "78299701";
-    int IDcliente1, IDcliente2, IDcliente3;
-
-    cout << "\n------------- ATIVIDADE 3 -------------" << endl;
-
-    if(listacompras->MapaCliente.find(Cliente1) == listacompras->MapaCliente.end()){
-        cout << "Cliente " << Cliente1 << " não encontrado" << endl;
-    } else {
-        IDcliente1 = listacompras->MapaCliente[Cliente1];
-
-        cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente1 << " (ID: " << IDcliente1 << ") ---" << endl;
-        recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente1);
-    }
-
-    if(listacompras->MapaCliente.find(Cliente2) == listacompras->MapaCliente.end()){
-        cout << "Cliente " << Cliente2 << " não encontrado" << endl;
-    } else {
-        IDcliente2 = listacompras->MapaCliente[Cliente2];
-
-        cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente2 << " (ID: " << IDcliente2 << ") ---" << endl;
-        recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente2);
-    }
-
-    if(listacompras->MapaCliente.find(Cliente3) == listacompras->MapaCliente.end()){
-        cout << "Cliente " << Cliente3 << " não encontrado" << endl;
-    } else {
-        IDcliente3 = listacompras->MapaCliente[Cliente3];
-
-        cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente3 << " (ID: " << IDcliente3 << ") ---" << endl;
-        recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente3);
-    }
-}
