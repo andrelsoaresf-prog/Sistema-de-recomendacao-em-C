@@ -105,7 +105,7 @@ void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int
     printf("O cliente mais similar com o Cliente %d, é o Cliente %d (Similaridade: %f)\n", IDcliente1, IDcliente2, menor);
 }
 
-CSR similiradadeCSR(ListaCompras *listacompras){
+Matrizes similiradadeCSR(ListaCompras *listacompras){
     CSR MatrizCompras = criarMatrizComprasCSR(listacompras);
     CSR MatrizIntersecao = criarMatrizIntersecaoCSR(listacompras, MatrizCompras);
 
@@ -129,5 +129,10 @@ CSR similiradadeCSR(ListaCompras *listacompras){
         }
     }
 
-    return MatrizSimilaridade;
+    Matrizes matriz;
+    matriz.MatrizCompras = MatrizCompras;
+    matriz.MatrizIntersecao = MatrizIntersecao;
+    matriz.MatrizSimilaridade = MatrizSimilaridade;
+
+    return matriz;
 }

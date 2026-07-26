@@ -22,6 +22,12 @@ typedef struct {
     int fimJ;
 } Auxiliar;
 
+typedef struct {
+    CSR MatrizCompras;
+    CSR MatrizIntersecao;
+    CSR MatrizSimilaridade;
+} Matrizes;
+
 CSR criarMatrizIntersecaoCSR(ListaCompras *listacompras, CSR MatrizCompras);
 CSR criarMatrizComprasCSR(ListaCompras *listacompras);
 

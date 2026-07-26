@@ -62,7 +62,7 @@ void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int *
 void escolhertestador(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras){
     int testador;
     do {
-        printf("\nDigite qual testador deseja verificar (1, 2, 3 ou -1 para nenhum): ");
+        printf("\nDigite qual testador deseja verificar (1, 2, 3, 5 ou -1 para nenhum): ");
         scanf("%d", &testador);
 
         switch (testador) {
@@ -75,6 +75,9 @@ void escolhertestador(ListaCompras *listacompras, double **MatrizSimilaridade, i
             case 3:
                 testadorATV3(listacompras, MatrizSimilaridade, MatrizCompras);
                 break;
+            case 5:
+                testadorATV5(listacompras);
+                break;
             case -1:
                 printf("Saindo do menu de testes...\n");
                 break;
@@ -83,4 +86,20 @@ void escolhertestador(ListaCompras *listacompras, double **MatrizSimilaridade, i
                 break;
         }
     } while (testador != -1);
+}
+
+void testadorATV5(ListaCompras *listacompras){
+    string Cliente1 = "13574601";
+    int IDcliente1;
+
+    cout << "\n------------- ATIVIDADE 5 -------------" << endl;
+
+    if(listacompras->MapaCliente.find(Cliente1) == listacompras->MapaCliente.end()){
+        cout << "Cliente " << Cliente1 << " não encontrado" << endl;
+    } else {
+        IDcliente1 = listacompras->MapaCliente[Cliente1];
+
+        cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente1 << " (ID: " << IDcliente1 << ") ---" << endl;
+        recomendacaoCSR(listacompras, IDcliente1);
+    }
 }

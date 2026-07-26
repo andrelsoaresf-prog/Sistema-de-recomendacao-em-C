@@ -1,24 +1,33 @@
 #include "CSR.h"
+#include "vector"
+#include "list"
+#include "algorithm"
+using namespace std;
 
 CSR criarMatrizComprasCSR(ListaCompras *listacompras){
     CSR MatrizCompras;
     MatrizCompras.numeroLinha = listacompras->MapaCliente.size();
     MatrizCompras.numeroColuna = listacompras->MapaProduto.size();
-
+ 
     int acumulador = 0;
     MatrizCompras.row_ptr.push_back(acumulador);
-
+ 
     for(int idCliente = 0; idCliente < MatrizCompras.numeroLinha; idCliente++){
-        for (int idProduto : listacompras->VetorLista[idCliente]) {
+        list<int> &produtosCliente = listacompras->VetorLista[idCliente];
+        vector<int> produtosOrdenados(produtosCliente.begin(), produtosCliente.end());
+        sort(produtosOrdenados.begin(), produtosOrdenados.end());
+ 
+        for (int idProduto : produtosOrdenados) {
             MatrizCompras.values.push_back(1);
             MatrizCompras.col_index.push_back(idProduto);
             acumulador++;
         }
         MatrizCompras.row_ptr.push_back(acumulador);
     }
-
+ 
     return MatrizCompras;
 }
+
 
 CSR criarMatrizIntersecaoCSR(ListaCompras *listacompras, CSR MatrizCompras){
     CSR MatrizIntersecao;
@@ -30,7 +39,7 @@ CSR criarMatrizIntersecaoCSR(ListaCompras *listacompras, CSR MatrizCompras){
 
     for(int i = 0; i < MatrizCompras.numeroLinha; i++){
         if(MatrizCompras.row_ptr[i] == MatrizCompras.row_ptr[i + 1]){
-            MatrizIntersecao.row_ptr.push_back(aux.cont);;
+            MatrizIntersecao.row_ptr.push_back(aux.cont);
             continue;
         }
         for (int j = 0; j < MatrizCompras.numeroLinha; j++){
