@@ -5,6 +5,8 @@
 #include "listacompras.h"
 #include "Similaridade.h"
 #include "Recomendacao.h" 
+#include "Testadores.h"
+#include "CSR.h"
 using namespace std;
 
 int listacompras(char* nomeArquivo, int k){
@@ -98,38 +100,12 @@ int listacompras(char* nomeArquivo, int k){
             return 1;
         }
     }
-    int escolha;
-    printf("\n1 para algoritmo padrão de similaridade\n2 para algoritmo adaptado\n"); scanf("%d", &escolha);
-    while (escolha != 1 && escolha != 2){
-        printf("\nInválido! Escolha novamente.");
-        printf("\n1 para algoritmo padrão de similaridade\n2 para algoritmo adaptado\n"); scanf("%d", &escolha);
-    }
+    
+    Matrizes matriz;
 
-    similaridade(&listacompras, MatrizSimilaridade, MatrizCompras, escolha);
+    similaridade(&listacompras, MatrizSimilaridade, MatrizCompras, &matriz);
 
-    int testador;
-    do {
-        printf("\nDigite qual testador deseja verificar (1, 2, 3 ou -1 para nenhum): ");
-        scanf("%d", &testador);
-
-        switch (testador) {
-            case 1:
-                testadorATV1(&listacompras);
-                break;
-            case 2:
-                testadorATV2(&listacompras, MatrizSimilaridade);
-                break;
-            case 3:
-                testadorATV3(&listacompras, MatrizSimilaridade, MatrizCompras);
-                break;
-            case -1:
-                printf("Saindo do menu de testes...\n");
-                break;
-            default:
-                printf("Opção inválida! Tente novamente.\n");
-                break;
-        }
-    } while (testador != -1);
+    escolhertestador(&listacompras, MatrizSimilaridade, MatrizCompras, matriz);
 
     for (int i = 0; i < NumeroClientes; i++) {
         free(MatrizCompras[i]);
@@ -158,15 +134,4 @@ void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
             cout << "-" << produto << endl;
         }
     }
-}
-
-void testadorATV1(ListaCompras *listacompras){
-    char cliente1[] = "13574601";
-    char cliente2[] = "33653401";
-    char cliente3[] = "78299701";
-
-    cout << "\n------------- ATIVIDADE 1 -------------" << endl;
-    mostrarProdutos(listacompras, cliente1);
-    mostrarProdutos(listacompras, cliente2);
-    mostrarProdutos(listacompras, cliente3);
 }

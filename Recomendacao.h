@@ -4,6 +4,7 @@
 #include <list>
 #include <iostream>
 #include "listacompras.h"
+#include "CSR.h"
 using namespace std;
 
 typedef struct {
@@ -13,7 +14,7 @@ typedef struct {
 
 void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, int IDcliente);
 bool compararPorRank(const Ranqueamento &a, const Ranqueamento &b);
-void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras);
+void recomendacaoCSR(ListaCompras *listacompras, Matrizes matriz,int IDcliente);
 
 
 #endif
