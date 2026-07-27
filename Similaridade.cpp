@@ -6,6 +6,7 @@
 #include "Similaridade.h"
 #include "Recomendacao.h"
 #include "CSR.h"
+#include "Testadores.h"
 using namespace std;
 
 int similaridadePadrao(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, int escolha){
@@ -141,33 +142,73 @@ void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int
     printf("O cliente mais similar com o Cliente %d, é o Cliente %d (Similaridade: %f)\n", IDcliente1, IDcliente2, menor);
 }
 
-int similaridade(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, Matrizes *Matriz){
+int similaridade(ListaCompras *listacompras, Matrizes *Matriz){
     int escolha;
 
-    printf("\n1 para algoritmo padrão de similaridade\n2 para algoritmo adaptado\n3 para algoritmo com CSR\n"); scanf("%d", &escolha);
+    printf("\n1 para algoritmo padrão de similaridade\n2 para algoritmo adaptado\n3 para algoritmo com CSR\n");
+    scanf("%d", &escolha);
     while (escolha != 1 && escolha != 2 && escolha != 3){
         printf("\nInválido! Escolha novamente.");
-        printf("\n1 para algoritmo padrão de similaridade\n2 para algoritmo adaptado\n3 para algoritmo com CSR\n"); scanf("%d", &escolha);
+        printf("\n1 para algoritmo padrão de similaridade\n2 para algoritmo adaptado\n3 para algoritmo com CSR\n");
+        scanf("%d", &escolha);
     }
 
-    if (escolha == 1){
-        similaridadePadrao(listacompras, MatrizSimilaridade, MatrizCompras, escolha);
-        return 0;
-    }
+    if (escolha == 1 || escolha == 2){
+        int NumeroClientes = listacompras->MapaCliente.size();
+        int NumeroProdutos = listacompras->MapaProduto.size();
 
-    if (escolha == 2){
+        int **MatrizCompras = (int **) malloc(NumeroClientes * sizeof(int*));
+        if(MatrizCompras == NULL){
+            printf("erro de memória");
+            return 1;
+        }
+
+        for (int i = 0; i < NumeroClientes; i++){
+            MatrizCompras[i] = (int *) malloc(NumeroProdutos * sizeof(int));
+
+            if (MatrizCompras[i] == NULL){
+                printf("erro de memória");
+                return 1;
+            }
+        }
+
+        double **MatrizSimilaridade = (double **) malloc(NumeroClientes * sizeof(double*));
+        if(MatrizSimilaridade == NULL){
+            printf("erro de memória");
+            return 1;
+        }
+
+        for (int i = 0; i < NumeroClientes; i++){
+            MatrizSimilaridade[i] = (double *) malloc(NumeroClientes * sizeof(double));
+
+            if (MatrizSimilaridade[i] == NULL){
+                printf("erro de memória");
+                return 1;
+            }
+        }
+
         similaridadePadrao(listacompras, MatrizSimilaridade, MatrizCompras, escolha);
-        return 0;
+
+        escolhertestador(listacompras, MatrizSimilaridade, MatrizCompras, Matriz, escolha);
+
+        for (int i = 0; i < NumeroClientes; i++) {
+            free(MatrizCompras[i]);
+            free(MatrizSimilaridade[i]);
+        }
+        free(MatrizCompras);
+        MatrizCompras = NULL;
+
+        free(MatrizSimilaridade);
+        MatrizSimilaridade = NULL;
     }
 
     if (escolha == 3){
         *Matriz = similiradadeCSR(listacompras);
-        return 0;
+
+        escolhertestador(listacompras, nullptr, nullptr, Matriz, escolha);
     }
 
-    else 
-        printf("erro");
-        return 1;
+    return 0;
 }
 
 Matrizes similiradadeCSR(ListaCompras *listacompras){

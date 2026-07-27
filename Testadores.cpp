@@ -59,11 +59,16 @@ void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int *
     }
 }
 
-void escolhertestador(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, Matrizes matriz){
+void escolhertestador(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, Matrizes *matriz, int modo){
     int testador;
     do {
-        printf("\nDigite qual testador deseja verificar (1, 2, 3, 5 ou -1 para nenhum): ");
+        printf("\nDigite qual testador deseja verificar (1, 2, 3, 5 ou -1 para sair): ");
         scanf("%d", &testador);
+
+        if (testador == 5 && modo != 3){
+            printf("Esse testador exige o modo 3 (CSR). Rode o programa de novo e escolha esse modo.\n");
+            continue;
+        }
 
         switch (testador) {
             case 1:
@@ -88,7 +93,7 @@ void escolhertestador(ListaCompras *listacompras, double **MatrizSimilaridade, i
     } while (testador != -1);
 }
 
-void testadorATV5(ListaCompras *listacompras, Matrizes matriz){
+void testadorATV5(ListaCompras *listacompras, Matrizes *matriz){
     string Cliente1 = "13574601";
     int IDcliente1;
 

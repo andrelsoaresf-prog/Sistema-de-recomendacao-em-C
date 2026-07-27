@@ -56,20 +56,20 @@ void recomendacao(ListaCompras *listacompras, double **MatrizSimilaridade, int *
     }
 }
 
-void recomendacaoCSR(ListaCompras *listacompras, Matrizes matriz, int IDcliente){
-    Matrizes Matriz = matriz;
+void recomendacaoCSR(ListaCompras *listacompras, Matrizes *matriz, int IDcliente){
+    Matrizes *Matriz = matriz;
     vector<int> ListaVizinhos;
     vector<double> ListaSimilaridadeVizinhos;
 
-    int NumeroCLientes = Matriz.MatrizCompras.numeroLinha;
-    int NumeroProdutos = Matriz.MatrizCompras.numeroColuna;
+    int NumeroCLientes = Matriz->MatrizCompras.numeroLinha;
+    int NumeroProdutos = Matriz->MatrizCompras.numeroColuna;
 
-    int inicioSimilaridade = Matriz.MatrizSimilaridade.row_ptr[IDcliente];
-    int fimSimilaridade = Matriz.MatrizSimilaridade.row_ptr[IDcliente + 1];
+    int inicioSimilaridade = Matriz->MatrizSimilaridade.row_ptr[IDcliente];
+    int fimSimilaridade = Matriz->MatrizSimilaridade.row_ptr[IDcliente + 1];
 
     for (int idx = inicioSimilaridade; idx < fimSimilaridade; idx++){
-        int IDvizinho = Matriz.MatrizSimilaridade.col_index[idx];
-        double valorSimilaridade = Matriz.MatrizSimilaridade.values[idx];
+        int IDvizinho = Matriz->MatrizSimilaridade.col_index[idx];
+        double valorSimilaridade = Matriz->MatrizSimilaridade.values[idx];
 
         if (IDcliente != IDvizinho && valorSimilaridade < 1){
             ListaVizinhos.push_back(IDvizinho);
@@ -83,11 +83,11 @@ void recomendacaoCSR(ListaCompras *listacompras, Matrizes matriz, int IDcliente)
         VetorR[i].rank = 1.0; 
     }
 
-    int inicioCompra = Matriz.MatrizCompras.row_ptr[IDcliente];
-    int fimCompra = Matriz.MatrizCompras.row_ptr[IDcliente + 1];
+    int inicioCompra = Matriz->MatrizCompras.row_ptr[IDcliente];
+    int fimCompra = Matriz->MatrizCompras.row_ptr[IDcliente + 1];
 
     for (int idx = inicioCompra; idx < fimCompra; idx ++){
-        int IDprodutojacomprado = Matriz.MatrizCompras.col_index[idx];
+        int IDprodutojacomprado = Matriz->MatrizCompras.col_index[idx];
         VetorR[IDprodutojacomprado].rank = 10;
     }
 

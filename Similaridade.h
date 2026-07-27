@@ -6,7 +6,7 @@
 
 int similaridadePadrao(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, int escolha);
 void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int IDcliente1);
-int similaridade(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, Matrizes *Matriz);
+int similaridade(ListaCompras *listacompras, Matrizes *Matriz);
 Matrizes similiradadeCSR(ListaCompras *listacompras);
 
 #endif

@@ -66,56 +66,10 @@ int listacompras(char* nomeArquivo, int k){
     }
 
     listacompras.k = k;
-
-
-    int NumeroClientes = listacompras.MapaCliente.size();
-    int NumeroProdutos = listacompras.MapaProduto.size();
-
-    int **MatrizCompras = (int **) malloc(NumeroClientes * sizeof(int*));
-    if(MatrizCompras == NULL){
-        printf("erro de memória");
-        return 1;
-    }
-    
-    for (int i = 0; i < NumeroClientes; i++){
-        MatrizCompras[i] = (int *) malloc(NumeroProdutos * sizeof(int));
-
-        if (MatrizCompras[i] == NULL){
-            printf("erro de memória");
-            return 1;
-        }
-    }
-
-    double **MatrizSimilaridade = (double **) malloc(NumeroClientes * sizeof(double*));
-    if(MatrizSimilaridade == NULL){
-        printf("erro de memória");
-        return 1;
-    }
-    
-    for (int i = 0; i < NumeroClientes; i++){
-        MatrizSimilaridade[i] = (double *) malloc(NumeroClientes * sizeof(double));
-
-        if (MatrizSimilaridade[i] == NULL){
-            printf("erro de memória");
-            return 1;
-        }
-    }
     
     Matrizes matriz;
 
-    similaridade(&listacompras, MatrizSimilaridade, MatrizCompras, &matriz);
-
-    escolhertestador(&listacompras, MatrizSimilaridade, MatrizCompras, matriz);
-
-    for (int i = 0; i < NumeroClientes; i++) {
-        free(MatrizCompras[i]);
-        free(MatrizSimilaridade[i]);
-    }
-    free(MatrizCompras);
-    MatrizCompras = NULL;
-
-    free(MatrizSimilaridade);
-    MatrizSimilaridade = NULL;
+    similaridade(&listacompras, &matriz);
 
     return 0;
 }
