@@ -15,6 +15,11 @@ void testadorATV1(ListaCompras *listacompras){
 }
 
 void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade){
+    if (MatrizSimilaridade == NULL){
+        cout << "\nTestador 2 requer o modo 1 ou 2 (matriz densa). Rode novamente escolhendo um desses modos." << endl;
+        return;
+    }
+
     int IDcliente1 = 7;
     int IDcliente2 = 13;
 
@@ -24,6 +29,11 @@ void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade){
 }
 
 void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras){
+    if (MatrizSimilaridade == NULL || MatrizCompras == NULL){
+        cout << "\nTestador 3 requer o modo 1 ou 2 (matriz densa). Rode novamente escolhendo um desses modos." << endl;
+        return;
+    }
+
     string Cliente1 = "13574601";
     string Cliente2 = "33653401";
     string Cliente3 = "78299701";
@@ -65,11 +75,6 @@ void escolhertestador(ListaCompras *listacompras, double **MatrizSimilaridade, i
         printf("\nDigite qual testador deseja verificar (1, 2, 3, 5 ou -1 para sair): ");
         scanf("%d", &testador);
 
-        if (testador == 5 && modo != 3){
-            printf("Esse testador exige o modo 3 (CSR). Rode o programa de novo e escolha esse modo.\n");
-            continue;
-        }
-
         switch (testador) {
             case 1:
                 testadorATV1(listacompras);
@@ -81,7 +86,7 @@ void escolhertestador(ListaCompras *listacompras, double **MatrizSimilaridade, i
                 testadorATV3(listacompras, MatrizSimilaridade, MatrizCompras);
                 break;
             case 5:
-                testadorATV5(listacompras, matriz);
+                testadorATV5(listacompras, MatrizSimilaridade, matriz, modo);
                 break;
             case -1:
                 printf("Saindo do menu de testes...\n");
@@ -93,18 +98,22 @@ void escolhertestador(ListaCompras *listacompras, double **MatrizSimilaridade, i
     } while (testador != -1);
 }
 
-void testadorATV5(ListaCompras *listacompras, Matrizes *matriz){
-    string Cliente1 = "13574601";
-    int IDcliente1;
+void testadorATV5(ListaCompras *listacompras, double **MatrizSimilaridade, Matrizes *matriz, int modo){
+    size_t tamanho = 0;
+    int NumeroClientes = listacompras->MapaCliente.size();
 
-    cout << "\n------------- ATIVIDADE 5 -------------" << endl;
-
-    if(listacompras->MapaCliente.find(Cliente1) == listacompras->MapaCliente.end()){
-        cout << "Cliente " << Cliente1 << " não encontrado" << endl;
-    } else {
-        IDcliente1 = listacompras->MapaCliente[Cliente1];
-
-        cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente1 << " (ID: " << IDcliente1 << ") ---" << endl;
-        recomendacaoCSR(listacompras, matriz, IDcliente1);
+    if (modo == 1 || modo == 2){
+        tamanho = (size_t)NumeroClientes * sizeof(double *)
+                + (size_t)NumeroClientes * (size_t)NumeroClientes * sizeof(double);
     }
+
+    else if (modo == 3){
+        CSR &similaridade = matriz->MatrizSimilaridade;
+        tamanho = similaridade.row_ptr.size()   * sizeof(int)
+                + similaridade.col_index.size() * sizeof(int)
+                + similaridade.values.size()    * sizeof(double);
+    }
+
+    cout << "\nMemória utilizada pela MatrizSimilaridade (modo " << modo << "): "
+         << tamanho << " bytes" << endl;
 }

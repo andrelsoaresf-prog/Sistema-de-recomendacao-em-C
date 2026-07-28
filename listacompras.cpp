@@ -66,10 +66,8 @@ int listacompras(char* nomeArquivo, int k){
     }
 
     listacompras.k = k;
-    
-    Matrizes matriz;
 
-    similaridade(&listacompras, &matriz);
+    similaridade(&listacompras);
 
     return 0;
 }
@@ -85,7 +83,7 @@ void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
         printf("O cliente %s comprou:\n", CodCliente);
 
         for (int produto : listacompras->VetorLista[indiceCliente]){
-            cout << "-" << produto << endl;
+            cout << "-" << listacompras->NomesProdutosUnicos[produto] << endl;
         }
     }
 }

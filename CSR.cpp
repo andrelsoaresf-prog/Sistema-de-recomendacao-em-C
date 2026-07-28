@@ -16,6 +16,7 @@ CSR criarMatrizComprasCSR(ListaCompras *listacompras){
         list<int> &produtosCliente = listacompras->VetorLista[idCliente];
         vector<int> produtosOrdenados(produtosCliente.begin(), produtosCliente.end());
         sort(produtosOrdenados.begin(), produtosOrdenados.end());
+        produtosOrdenados.erase(unique(produtosOrdenados.begin(), produtosOrdenados.end()), produtosOrdenados.end());
  
         for (int idProduto : produtosOrdenados) {
             MatrizCompras.values.push_back(1);
