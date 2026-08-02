@@ -28,12 +28,7 @@ void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade){
     clienteSimilar(listacompras, MatrizSimilaridade, IDcliente2);
 }
 
-void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras){
-    if (MatrizSimilaridade == NULL || MatrizCompras == NULL){
-        cout << "\nTestador 3 requer o modo 1 ou 2 (matriz densa). Rode novamente escolhendo um desses modos." << endl;
-        return;
-    }
-
+void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, Matrizes *matriz, int modo){
     string Cliente1 = "13574601";
     string Cliente2 = "33653401";
     string Cliente3 = "78299701";
@@ -47,7 +42,12 @@ void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int *
         IDcliente1 = listacompras->MapaCliente[Cliente1];
 
         cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente1 << " (ID: " << IDcliente1 << ") ---" << endl;
-        recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente1);
+        if (modo == 3){
+            recomendacaoCSR(listacompras, matriz, IDcliente1);
+        }
+        else{
+           recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente1);
+        }
     }
 
     if(listacompras->MapaCliente.find(Cliente2) == listacompras->MapaCliente.end()){
@@ -56,7 +56,12 @@ void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int *
         IDcliente2 = listacompras->MapaCliente[Cliente2];
 
         cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente2 << " (ID: " << IDcliente2 << ") ---" << endl;
-        recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente2);
+        if (modo == 3){
+            recomendacaoCSR(listacompras, matriz, IDcliente2);
+        }
+        else{
+           recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente2);
+        }
     }
 
     if(listacompras->MapaCliente.find(Cliente3) == listacompras->MapaCliente.end()){
@@ -65,7 +70,12 @@ void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int *
         IDcliente3 = listacompras->MapaCliente[Cliente3];
 
         cout << "\n--- RECOMENDAÇÕES CLIENTE " << Cliente3 << " (ID: " << IDcliente3 << ") ---" << endl;
-        recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente3);
+        if (modo == 3){
+            recomendacaoCSR(listacompras, matriz, IDcliente3);
+        }
+        else{
+           recomendacao(listacompras, MatrizSimilaridade, MatrizCompras, IDcliente3);
+        }
     }
 }
 
@@ -83,7 +93,7 @@ void escolhertestador(ListaCompras *listacompras, double **MatrizSimilaridade, i
                 testadorATV2(listacompras, MatrizSimilaridade);
                 break;
             case 3:
-                testadorATV3(listacompras, MatrizSimilaridade, MatrizCompras);
+                testadorATV3(listacompras, MatrizSimilaridade, MatrizCompras, matriz, modo);
                 break;
             case 5:
                 testadorATV5(listacompras, MatrizSimilaridade, matriz, modo);
