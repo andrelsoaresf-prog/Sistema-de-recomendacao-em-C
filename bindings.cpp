@@ -6,8 +6,6 @@
 #include "Recomendacao.h"
 #include "CSR.h"
 
-
-
 namespace py = pybind11;
 
 PYBIND11_MODULE(resenha, m) {

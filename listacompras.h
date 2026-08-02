@@ -19,6 +19,12 @@ typedef struct {
     int k;
 } ListaCompras;
 
+typedef struct{
+    vector<list<int>> VetorLista;
+    int NumeroClientes;
+    int NumeroProdutos;
+} Estrutura;
+
 vector<list<int>> listacompras(const vector<string> clientes, const vector<int> produtos);
 
 

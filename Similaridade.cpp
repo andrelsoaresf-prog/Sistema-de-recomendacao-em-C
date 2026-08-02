@@ -6,12 +6,24 @@
 #include "Similaridade.h"
 #include "Recomendacao.h"
 #include "CSR.h"
-#include "Testadores.h"
 using namespace std;
 
-int similaridadePadrao(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, int escolha){
-    int NumeroClientes = listacompras->MapaCliente.size();
-    int NumeroProdutos = listacompras->MapaProduto.size();
+int** criarMatrizCompras(Estrutura vetor){
+    int NumeroClientes = vetor.NumeroClientes;
+    int NumeroProdutos = vetor.NumeroProdutos;
+
+    int **MatrizCompras = (int **) malloc(NumeroClientes * sizeof(int*));
+    if(MatrizCompras == NULL){
+        printf("erro de memória");
+    }
+
+    for (int i = 0; i < NumeroClientes; i++){
+        MatrizCompras[i] = (int *) malloc(NumeroProdutos * sizeof(int));
+
+        if (MatrizCompras[i] == NULL){
+               printf("erro de memória");
+        }
+    }
 
     for (int i = 0; i < NumeroClientes; i++) {
         for (int j = 0; j < NumeroProdutos; j++) {
@@ -20,39 +32,35 @@ int similaridadePadrao(ListaCompras *listacompras, double **MatrizSimilaridade, 
     }
 
     for(int idCliente = 0; idCliente < NumeroClientes; idCliente++){
-        for (int idProduto : listacompras->VetorLista[idCliente]) {
+        for (int idProduto : vetor.VetorLista[idCliente]) {
             MatrizCompras[idCliente][idProduto] = 1;
         }
     }
 
-    int **MatrizIntersecao = (int **) malloc(NumeroClientes * sizeof(int*));
-    if(MatrizIntersecao == NULL){
-        printf("erro de memória");
-        return 1;
+    return MatrizCompras;
+}
+
+vector<vector<double>> similaridadePadrao(Estrutura vetor, int modo){
+    int NumeroClientes = vetor.NumeroClientes;
+    int NumeroProdutos = vetor.NumeroProdutos;
+
+    int **MatrizCompras = criarMatrizCompras(vetor);
+
+    double **MatrizSimilaridade = (double **) malloc(NumeroClientes * sizeof(double*));
+    for (int i = 0; i < NumeroClientes; i++){
+        MatrizSimilaridade[i] = (double *) malloc(NumeroClientes * sizeof(double));
     }
+
+    int **MatrizIntersecao = (int **) malloc(NumeroClientes * sizeof(int*));
     for (int i = 0; i < NumeroClientes; i++){
         MatrizIntersecao[i] = (int *) malloc(NumeroClientes * sizeof(int));
-
-        if(MatrizIntersecao[i] == NULL){
-            printf("erro de memória");
-            return 1;
-        }
     }
 
-    if (escolha == 1){
+    if (modo == 1){
         int **MatrizTransposta = (int **) malloc(NumeroProdutos * sizeof(int *));
-        if(MatrizTransposta == NULL){
-            printf("erro de memória");
-            return 1;
-        }
 
         for (int i = 0; i < NumeroProdutos; i++){
             MatrizTransposta[i] = (int *) malloc(NumeroClientes * sizeof(int));
-
-            if(MatrizTransposta[i] == NULL){
-                printf("erro de memória");
-                return 1;
-            }
         }
 
         for (int i = 0; i < NumeroClientes; i++){
@@ -77,7 +85,7 @@ int similaridadePadrao(ListaCompras *listacompras, double **MatrizSimilaridade, 
         MatrizTransposta = NULL;
     }
 
-    else if (escolha == 2){
+    else if (modo == 2){
         for (int i = 0; i < NumeroClientes; i++){
             for (int j = i; j < NumeroClientes; j++){
                 int soma = 0;
@@ -102,105 +110,26 @@ int similaridadePadrao(ListaCompras *listacompras, double **MatrizSimilaridade, 
     free(MatrizIntersecao);
     MatrizIntersecao = NULL;
 
-    return 0;
+    for (int i = 0; i < NumeroClientes; i++){
+        free(MatrizCompras[i]);
+    }
+    free(MatrizCompras);
+    MatrizCompras = NULL;
+
+    vector<vector<double>> resultado = mallocParaVector(MatrizSimilaridade, NumeroClientes, NumeroClientes);
+
+    for (int i = 0; i < NumeroClientes; i++) {
+        free(MatrizSimilaridade[i]);
+    }
+    free(MatrizSimilaridade);
+    MatrizSimilaridade = NULL;
+
+    return resultado;
 }
 
-void clienteSimilar(ListaCompras *listacompras, double **MatrizSimilaridade, int IDcliente1){
-    int NumeroClientes = listacompras->MapaCliente.size();
-    int IDcliente2 = -1;
-    double menor = 1.0;
-
-    for (int j = 0; j < NumeroClientes; j++){
-        if (IDcliente1 != j){
-            if (menor > MatrizSimilaridade[IDcliente1][j]){
-                menor = MatrizSimilaridade[IDcliente1][j];
-                IDcliente2 = j;
-            }
-        }
-    }
-
-    printf("O cliente mais similar com o Cliente %d, é o Cliente %d (Similaridade: %f)\n", IDcliente1, IDcliente2, menor);
-}
-
-int similaridade(ListaCompras *listacompras){
-    int escolha;
-
-    printf("\n1 para algoritmo padrão de similaridade\n2 para algoritmo adaptado\n3 para algoritmo com CSR\n");
-    scanf("%d", &escolha);
-    while (escolha != 1 && escolha != 2 && escolha != 3){
-        printf("\nInválido! Escolha novamente.");
-        printf("\n1 para algoritmo padrão de similaridade\n2 para algoritmo adaptado\n3 para algoritmo com CSR\n");
-        scanf("%d", &escolha);
-    }
-
-    int NumeroClientes = listacompras->MapaCliente.size();
-    int NumeroProdutos = listacompras->MapaProduto.size();
-
-    int **MatrizCompras = NULL;
-    double **MatrizSimilaridade = NULL;
-    Matrizes Matriz;
-
-    if (escolha == 1 || escolha == 2){
-        MatrizCompras = (int **) malloc(NumeroClientes * sizeof(int*));
-        if(MatrizCompras == NULL){
-            printf("erro de memória");
-            return 1;
-        }
-
-        for (int i = 0; i < NumeroClientes; i++){
-            MatrizCompras[i] = (int *) malloc(NumeroProdutos * sizeof(int));
-
-            if (MatrizCompras[i] == NULL){
-                printf("erro de memória");
-                return 1;
-            }
-        }
-
-        MatrizSimilaridade = (double **) malloc(NumeroClientes * sizeof(double*));
-        if(MatrizSimilaridade == NULL){
-            printf("erro de memória");
-            return 1;
-        }
-
-        for (int i = 0; i < NumeroClientes; i++){
-            MatrizSimilaridade[i] = (double *) malloc(NumeroClientes * sizeof(double));
-
-            if (MatrizSimilaridade[i] == NULL){
-                printf("erro de memória");
-                return 1;
-            }
-        }
-
-        similaridadePadrao(listacompras, MatrizSimilaridade, MatrizCompras, escolha);
-    }
-    if(escolha == 3){
-        Matriz = similiradadeCSR(listacompras);
-    }
-
-    escolhertestador(listacompras, MatrizSimilaridade, MatrizCompras, &Matriz, escolha);
-
-    if (MatrizCompras != NULL){
-        for (int i = 0; i < NumeroClientes; i++) {
-            free(MatrizCompras[i]);
-        }
-        free(MatrizCompras);
-        MatrizCompras = NULL;
-    }
-
-    if (MatrizSimilaridade != NULL){
-        for (int i = 0; i < NumeroClientes; i++) {
-            free(MatrizSimilaridade[i]);
-        }
-        free(MatrizSimilaridade);
-        MatrizSimilaridade = NULL;
-    }
-
-    return 0;
-}
-
-Matrizes similiradadeCSR(ListaCompras *listacompras){
-    CSR MatrizCompras = criarMatrizComprasCSR(listacompras);
-    CSR MatrizIntersecao = criarMatrizIntersecaoCSR(listacompras, MatrizCompras);
+tuple<vector<double>, vector<int>, vector<int>> similaridadeCSR(const vector<list<int>>& vetor_lista){
+    CSR MatrizCompras = criarMatrizComprasCSR(vetor_lista);
+    CSR MatrizIntersecao = criarMatrizIntersecaoCSR(vetor_lista, MatrizCompras);
 
     CSR MatrizSimilaridade;
     MatrizSimilaridade.numeroLinha = MatrizIntersecao.numeroLinha;
@@ -222,10 +151,18 @@ Matrizes similiradadeCSR(ListaCompras *listacompras){
         }
     }
 
-    Matrizes matriz;
-    matriz.MatrizCompras = MatrizCompras;
-    matriz.MatrizIntersecao = MatrizIntersecao;
-    matriz.MatrizSimilaridade = MatrizSimilaridade;
+    return make_tuple(MatrizSimilaridade.values, MatrizSimilaridade.col_index, MatrizSimilaridade.row_ptr);
+}
 
-    return matriz;
+vector<vector<double>> mallocParaVector(double** matrizMalloc, int linhas, int colunas) {
+
+    vector<vector<double>> resultado(linhas, vector<double>(colunas));
+
+    for (int i = 0; i < linhas; i++) {
+        for (int j = 0; j < colunas; j++) {
+            resultado[i][j] = matrizMalloc[i][j];
+        }
+    }
+
+    return resultado;
 }
