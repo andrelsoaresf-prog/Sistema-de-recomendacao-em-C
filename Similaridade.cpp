@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
-#include "listacompras.h"
 #include "Similaridade.h"
 #include "Recomendacao.h"
 #include "CSR.h"
 using namespace std;
 
-int** criarMatrizCompras(Estrutura vetor){
+int** criarMatrizCompras(DadosCompras vetor){
     int NumeroClientes = vetor.NumeroClientes;
     int NumeroProdutos = vetor.NumeroProdutos;
 
@@ -40,7 +39,12 @@ int** criarMatrizCompras(Estrutura vetor){
     return MatrizCompras;
 }
 
-vector<vector<double>> similaridadePadrao(Estrutura vetor, int modo){
+vector<vector<double>> similaridadePadrao(const vector<list<int>> &vetorlista, 
+    const int &numeroclientes, const int &numeroprodutos, int modo){
+    
+    DadosCompras vetor;
+    converterParaEstrutura(&vetor, vetorlista, numeroclientes, numeroprodutos);
+
     int NumeroClientes = vetor.NumeroClientes;
     int NumeroProdutos = vetor.NumeroProdutos;
 
@@ -127,9 +131,12 @@ vector<vector<double>> similaridadePadrao(Estrutura vetor, int modo){
     return resultado;
 }
 
-tuple<vector<double>, vector<int>, vector<int>> similaridadeCSR(const vector<list<int>>& vetor_lista){
-    CSR MatrizCompras = criarMatrizComprasCSR(vetor_lista);
-    CSR MatrizIntersecao = criarMatrizIntersecaoCSR(vetor_lista, MatrizCompras);
+tuple<vector<double>, vector<int>, vector<int>> similaridadeCSR(const vector<list<int>> &vetorlista, const int &numeroclientes, const int &numeroprodutos){
+    DadosCompras vetor;
+    converterParaEstrutura(&vetor, vetorlista, numeroclientes, numeroprodutos);
+
+    CSR MatrizCompras = criarMatrizComprasCSR(vetor);
+    CSR MatrizIntersecao = criarMatrizIntersecaoCSR(MatrizCompras);
 
     CSR MatrizSimilaridade;
     MatrizSimilaridade.numeroLinha = MatrizIntersecao.numeroLinha;
@@ -165,4 +172,10 @@ vector<vector<double>> mallocParaVector(double** matrizMalloc, int linhas, int c
     }
 
     return resultado;
+}
+
+void converterParaEstrutura(DadosCompras *vetor, const vector<list<int>> &vetorlista, const int &numeroclientes, const int &numeroprodutos){
+    vetor->VetorLista = vetorlista;
+    vetor->NumeroClientes = numeroclientes;
+    vetor->NumeroProdutos = numeroprodutos;
 }

@@ -3,7 +3,6 @@
 
 #include <list>
 #include <iostream>
-#include "listacompras.h"
 #include "CSR.h"
 using namespace std;
 

@@ -1,9 +1,16 @@
 #ifndef _CSR_H_
 #define _CSR_H_
 
-#include "listacompras.h"
-#include "vector"
+#include <vector>
+#include <list>
+
 using namespace std;
+
+typedef struct {
+    vector<list<int>> VetorLista;
+    int NumeroClientes;
+    int NumeroProdutos;
+} DadosCompras;
 
 typedef struct {
     int numeroLinha;
@@ -22,13 +29,7 @@ typedef struct {
     int fimJ;
 } Auxiliar;
 
-typedef struct {
-    CSR MatrizCompras;
-    CSR MatrizIntersecao;
-    CSR MatrizSimilaridade;
-} Matrizes;
-
-CSR criarMatrizIntersecaoCSR(ListaCompras *listacompras, CSR MatrizCompras);
-CSR criarMatrizComprasCSR(ListaCompras *listacompras);
+CSR criarMatrizIntersecaoCSR(CSR MatrizCompras);
+CSR criarMatrizComprasCSR(DadosCompras vetor);
 
 #endif
