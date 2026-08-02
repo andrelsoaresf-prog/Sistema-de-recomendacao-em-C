@@ -9,13 +9,6 @@
 using namespace std;
 
 typedef struct {
-    char Data[20];
-    char CodCliente[10];
-    int CodProduto;
-    char NomeProduto[100];
-} Dados;
-
-typedef struct {
     vector<int> VetorProduto;
     vector<string> VetorCliente;
     vector<string> VetorNomeProduto;
@@ -26,7 +19,7 @@ typedef struct {
     int k;
 } ListaCompras;
 
-int listacompras(char* nomeArquivo, int k);
-void mostrarProdutos(ListaCompras *listacompras, char* CodCliente);
+vector<list<int>> listacompras(const vector<string> clientes, const vector<int> produtos);
+
 
 #endif

@@ -1,89 +1,47 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <iostream>
 #include "listacompras.h"
-#include "Similaridade.h"
-#include "Recomendacao.h" 
-#include "Testadores.h"
 #include "CSR.h"
 using namespace std;
 
-int listacompras(char* nomeArquivo, int k){
-    FILE *arquivo;
-    Dados dados;
-    ListaCompras listacompras;
-
-    arquivo = fopen(nomeArquivo, "r");
-    if (arquivo == NULL){
-        printf("Erro ao abrir arquivo csv.\n");
-        return 1;
+vector<list<int>> listacompras(const vector<string> clientes, const vector<int> produtos){
+    ListaCompras lc;
+    
+    for (int i = 0; i < clientes.size(); i++){
+        lc.VetorCliente.push_back(clientes[i]);
+        lc.VetorProduto.push_back(produtos[i]);
     }
-
-    fscanf(arquivo, "%*[^\n]\n");
-
-    while (fscanf(arquivo, "%[^,],%9[^,],%d,%99[^\n]\n",
-        dados.Data,
-        dados.CodCliente,
-        &dados.CodProduto,
-        dados.NomeProduto) == 4)
-    {
-        listacompras.VetorCliente.push_back(dados.CodCliente);
-        listacompras.VetorProduto.push_back(dados.CodProduto);
-        listacompras.VetorNomeProduto.push_back(dados.NomeProduto);
-    }
-    fclose(arquivo);
 
     int contadorCliente = 0, contadorProduto = 0;
 
-    for (int i = 0; i < listacompras.VetorCliente.size(); i++){
-        string cliente = listacompras.VetorCliente[i];
-        int produto = listacompras.VetorProduto[i];
-        string NomeProduto = listacompras.VetorNomeProduto[i];
+    for (int i = 0; i < lc.VetorCliente.size(); i++){
+        string cliente = lc.VetorCliente[i];
+        int produto = lc.VetorProduto[i];
 
-        if (listacompras.MapaCliente.find(cliente) == listacompras.MapaCliente.end()){
-            listacompras.MapaCliente[cliente] = contadorCliente;
+        if (lc.MapaCliente.find(cliente) == lc.MapaCliente.end()){
+            lc.MapaCliente[cliente] = contadorCliente;
             contadorCliente++;
         }
 
-        if (listacompras.MapaProduto.find(produto) == listacompras.MapaProduto.end()){
-            listacompras.MapaProduto[produto] = contadorProduto;
-            listacompras.NomesProdutosUnicos.push_back(NomeProduto);
+        if (lc.MapaProduto.find(produto) == lc.MapaProduto.end()){
+            lc.MapaProduto[produto] = contadorProduto;
             contadorProduto++;
         }
     }
 
-    listacompras.VetorLista.resize(listacompras.MapaCliente.size());
+    lc.VetorLista.resize(lc.MapaCliente.size());
 
-    for (int i = 0; i < listacompras.VetorCliente.size(); i++) {
-        string cliente = listacompras.VetorCliente[i];
-        int produto = listacompras.VetorProduto[i];
+    for (int i = 0; i < lc.VetorCliente.size(); i++) {
+        string cliente = lc.VetorCliente[i];
+        int produto = lc.VetorProduto[i];
 
-        int idCliente = listacompras.MapaCliente[cliente];
-        int idProduto = listacompras.MapaProduto[produto];
+        int idCliente = lc.MapaCliente[cliente];
+        int idProduto = lc.MapaProduto[produto];
 
-        listacompras.VetorLista[idCliente].push_back(idProduto);
+        lc.VetorLista[idCliente].push_back(idProduto);
     }
 
-    listacompras.k = k;
-
-    similaridade(&listacompras);
-
-    return 0;
-}
-
-void mostrarProdutos(ListaCompras *listacompras, char* CodCliente){
-    int indiceCliente;
-
-    if (listacompras->MapaCliente.find(CodCliente) == listacompras->MapaCliente.end()){
-        printf("Cliente %s não encontrado\n", CodCliente);
-    } else{
-        indiceCliente = listacompras->MapaCliente[CodCliente];
-
-        printf("O cliente %s comprou:\n", CodCliente);
-
-        for (int produto : listacompras->VetorLista[indiceCliente]){
-            cout << "-" << listacompras->NomesProdutosUnicos[produto] << endl;
-        }
-    }
+    vector<list<int>> vetorlistafinal = lc.VetorLista;
+    return vetorlistafinal;
 }
