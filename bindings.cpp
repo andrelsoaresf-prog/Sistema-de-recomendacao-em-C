@@ -11,8 +11,10 @@ PYBIND11_MODULE(resenha, m) {
 
     m.def("similaridade_CSR", &similaridadeCSR, "Funcao que cria a matriz similaridade no modo CSR");
 
-    m.def("similaridade_Padrao", &similaridadePadrao, "Funcao que cria a matriz similaridade")
+    m.def("similaridade_Padrao", &similaridadePadrao, "Funcao que cria a matriz similaridade");
 
-    m.def("recomendacao", &recomendacao, "Funcao que recomenda os k itens com o melhor rank");
+    m.def("recomendacao_Padrao", &recomendacaoPadrao, "Funcao que recomenda os k itens com o melhor rank");
+
+    m.def("recomendacao_CSR", &recomendacaoCSR, "Funcao que que recomenda os k itens com melhor rank, mas no modo CSR");
 }
 

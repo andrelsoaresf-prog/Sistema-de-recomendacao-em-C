@@ -3,8 +3,8 @@ from pybind11.setup_helpers import Pybind11Extension, build_ext
 
 ext_modules = [
     Pybind11Extension(
-        "meu_pkg",
-        ["bindings.cpp", "listaprodutos.cpp", "Similaridade.cpp",
+        "resenha",
+        ["bindings.cpp", "Similaridade.cpp",
          "Recomendacao.cpp", "CSR.cpp"], 
         cxx_std=17,
     ),
