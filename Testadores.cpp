@@ -4,9 +4,9 @@
 #include "Recomendacao.h"
 
 void testadorATV1(ListaCompras *listacompras){
-    char cliente1[] = "13574601";
-    char cliente2[] = "33653401";
-    char cliente3[] = "78299701";
+    char cliente1[] = "9OL9MJ01";
+    char cliente2[] = "99DAS601";
+    char cliente3[] = "9O3O4Z01";
 
     cout << "\n------------- ATIVIDADE 1 -------------" << endl;
     mostrarProdutos(listacompras, cliente1);
@@ -29,9 +29,9 @@ void testadorATV2(ListaCompras *listacompras, double **MatrizSimilaridade){
 }
 
 void testadorATV3(ListaCompras *listacompras, double **MatrizSimilaridade, int **MatrizCompras, Matrizes *matriz, int modo){
-    string Cliente1 = "13574601";
-    string Cliente2 = "33653401";
-    string Cliente3 = "78299701";
+    string Cliente1 = "9OL9MJ01";
+    string Cliente2 = "99DAS601";
+    string Cliente3 = "9O3O4Z01";
     int IDcliente1, IDcliente2, IDcliente3;
 
     cout << "\n------------- ATIVIDADE 3 -------------" << endl;
@@ -123,7 +123,10 @@ void testadorATV5(ListaCompras *listacompras, double **MatrizSimilaridade, Matri
                 + similaridade.col_index.size() * sizeof(int)
                 + similaridade.values.size()    * sizeof(double);
     }
+    if (tamanho > 1048576){
+        tamanho = tamanho/(1024*1024);
+    }
 
     cout << "\nMemória utilizada pela MatrizSimilaridade (modo " << modo << "): "
-         << tamanho << " bytes" << endl;
+         << tamanho << " Megabytes" << endl;
 }
