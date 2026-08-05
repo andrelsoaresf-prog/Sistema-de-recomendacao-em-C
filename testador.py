@@ -37,3 +37,27 @@ def testadorATV2(mapa_clientes, MatrizSimilaridade):
     else:
         print("cliente não encontrado")
 
+def testadorATV3(vetor_lista, nomes_produtos, mapa_clientes, numeroProdutos, MatrizSimilaridade, modo, k):
+    cliente = str(input("Digite o código do cliente: "))
+    numero_clientes = len(mapa_clientes)
+
+    if cliente in mapa_clientes:
+        IDcliente = mapa_clientes[cliente]
+
+        if modo == 1 or modo == 2:
+            Produtos_recomendados = resenha.recomendacao_Padrao(vetor_lista, numero_clientes, 
+                                                            numeroProdutos, MatrizSimilaridade, IDcliente, k)
+        elif modo == 3:
+            Produtos_recomendados = resenha.recomendacao_CSR(vetor_lista, numero_clientes, 
+                                                            numeroProdutos, MatrizSimilaridade, IDcliente, k)
+
+
+        for i in range(k):
+            IDproduto = Produtos_recomendados[i]
+            print(nomes_produtos[IDproduto])
+
+    else:
+        print("cliente não encontrado")
+
+
+        

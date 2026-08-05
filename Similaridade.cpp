@@ -131,7 +131,9 @@ vector<vector<double>> similaridadePadrao(const vector<list<int>> &vetorlista,
     return resultado;
 }
 
-tuple<vector<double>, vector<int>, vector<int>> similaridadeCSR(const vector<list<int>> &vetorlista, const int &numeroclientes, const int &numeroprodutos){
+tuple<vector<double>, vector<int>, vector<int>> similaridadeCSR(const vector<list<int>> &vetorlista, 
+    const int &numeroclientes, const int &numeroprodutos){
+        
     DadosCompras vetor;
     converterParaEstrutura(&vetor, vetorlista, numeroclientes, numeroprodutos);
 

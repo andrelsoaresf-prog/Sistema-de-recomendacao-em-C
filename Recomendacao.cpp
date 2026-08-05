@@ -52,13 +52,13 @@ vector<int> recomendacaoPadrao(const vector<list<int>> &vetorLista,
     std::sort(VetorR.begin(), VetorR.end(), compararPorRank);
 
     int tamanhoReal = std::min(k, numeroProdutos);
-    vector<int> MelhoresProdutos(tamanhoReal);
+    vector<int> ProdutosRecomendados(tamanhoReal);
 
     for (int i = 0; i < tamanhoReal; i++){
-        MelhoresProdutos[i] = VetorR[i].idproduto;
+        ProdutosRecomendados[i] = VetorR[i].idproduto;
     }
 
-    return MelhoresProdutos;
+    return ProdutosRecomendados;
 }
 
 vector<int> recomendacaoCSR(const vector<list<int>> &vetorLista, 
@@ -124,11 +124,11 @@ vector<int> recomendacaoCSR(const vector<list<int>> &vetorLista,
     std::sort(VetorR.begin(), VetorR.end(), compararPorRank);
 
     int tamanhoReal = std::min(k, numeroProdutos);
-    vector<int> MelhoresProdutos(tamanhoReal);
+    vector<int> ProdutosRecomendados(tamanhoReal);
 
     for (int i = 0; i < tamanhoReal; i++){
-        MelhoresProdutos[i] = VetorR[i].idproduto;
+        ProdutosRecomendados[i] = VetorR[i].idproduto;
     }
 
-    return MelhoresProdutos;
+    return ProdutosRecomendados;
 }

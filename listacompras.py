@@ -49,13 +49,14 @@ def main():
     k = 5
     modo = 2
 
-    clienteteste = "42593401"
+    #cliente teste do csv 17 "42593401"
 
-    MatrizSimilaridade = resenha.similaridade_Padrao(vetor_lista, NumeroClientes, NumeroProdutos, modo)
+    MatrizSimilaridade_padrao = resenha.similaridade_Padrao(vetor_lista, NumeroClientes, NumeroProdutos, modo)
+    MatrizSimilaridade_CSR = resenha.similaridade_CSR(vetor_lista, NumeroClientes, NumeroProdutos)
 
     #tt.testadorATV1(mapa_cliente ,vetor_lista, nomes_produtos)
     ##tt.testadorATV2(mapa_cliente, MatrizSimilaridade)
-
+    ##tt.testadorATV3(vetor_lista, nomes_produtos, mapa_cliente, NumeroProdutos, MatrizSimilaridade_CSR, 3, k)
 
 
 
