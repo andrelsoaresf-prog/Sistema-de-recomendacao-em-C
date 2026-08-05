@@ -1,5 +1,6 @@
 import csv
 import resenha
+import testador as tt
 
 def ler_lista_compras(caminho_csv):
     mapa_cliente = {}
@@ -39,8 +40,6 @@ def ler_lista_compras(caminho_csv):
     return mapa_cliente, mapa_produto, nomes_produtos, vetor_lista
 
 
-
-
 def main():
     arquivo = "dados/dados_venda_cluster_17.csv"
 
@@ -49,7 +48,14 @@ def main():
     NumeroProdutos = len(mapa_produto)
     k = 5
     modo = 2
-    
+
+    clienteteste = "42593401"
+
+    MatrizSimilaridade = resenha.similaridade_Padrao(vetor_lista, NumeroClientes, NumeroProdutos, modo)
+
+    #tt.testadorATV1(mapa_cliente ,vetor_lista, nomes_produtos)
+    ##tt.testadorATV2(mapa_cliente, MatrizSimilaridade)
+
 
 
 
