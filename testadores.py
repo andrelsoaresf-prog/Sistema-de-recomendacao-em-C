@@ -5,7 +5,7 @@ def testadorATV1(mapa_clientes, vetor_lista, nomes_produtos):
 
     if cliente in mapa_clientes:
         IDcliente = mapa_clientes[cliente]
-        print(f"O cliente {cliente} comprou esses produtos: ")
+        print(f"\nO cliente {cliente} comprou esses produtos: \n")
 
         for IDproduto in vetor_lista[IDcliente]:
 
@@ -31,15 +31,16 @@ def testadorATV2(mapa_clientes, MatrizSimilaridade):
                     menor = MatrizSimilaridade[IDcliente][i]
                     IDcliente_similar = i
 
-        print(f"O cliente mais similar com {cliente} é o cliente com ID igual a {IDcliente_similar}")
-        print(f"com uma similaridade de {menor}")
+        print(f"\nO cliente mais similar com {cliente} é o cliente com ID igual a {IDcliente_similar}")
+        print(f"com uma similaridade de {menor}\n")
 
     else:
         print("cliente não encontrado")
 
-def testadorATV3(vetor_lista, nomes_produtos, mapa_clientes, numeroProdutos, MatrizSimilaridade, modo, k):
+def testadorATV3(vetor_lista, nomes_produtos, mapa_clientes, numeroProdutos, MatrizSimilaridade, modo):
     cliente = str(input("Digite o código do cliente: "))
     numero_clientes = len(mapa_clientes)
+    k = int(input("Digite quantos produtos quer mostrar: "))
 
     if cliente in mapa_clientes:
         IDcliente = mapa_clientes[cliente]
@@ -52,12 +53,10 @@ def testadorATV3(vetor_lista, nomes_produtos, mapa_clientes, numeroProdutos, Mat
                                                             numeroProdutos, MatrizSimilaridade, IDcliente, k)
 
 
+        print(f"\nOs {k} produtos mais recomendados são :")
         for i in range(k):
             IDproduto = Produtos_recomendados[i]
             print(nomes_produtos[IDproduto])
 
     else:
         print("cliente não encontrado")
-
-
-        
