@@ -16,20 +16,37 @@ def testadorATV1(mapa_clientes, vetor_lista, nomes_produtos):
         print("cliente não encontrado")
 
 
-def testadorATV2(mapa_clientes, MatrizSimilaridade):
+def testadorATV2(mapa_clientes, MatrizSimilaridade, modo):
     cliente = str(input("Digite o código do cliente: "))
-    numero_clientes = len(mapa_clientes)
-    menor = 1
-    IDcliente_similar = 0
-
+    
     if cliente in mapa_clientes:
         IDcliente = mapa_clientes[cliente]
+        menor = 1.0
+        IDcliente_similar = 0
 
-        for i in range(numero_clientes):
-            if IDcliente != i:
-                if (menor > MatrizSimilaridade[IDcliente][i]):
-                    menor = MatrizSimilaridade[IDcliente][i]
-                    IDcliente_similar = i
+        if modo == 1 or modo == 2:
+            numero_clientes = len(mapa_clientes)
+
+            for i in range(numero_clientes):
+                if IDcliente != i:
+                    if menor > MatrizSimilaridade[IDcliente][i]:
+                        menor = MatrizSimilaridade[IDcliente][i]
+                        IDcliente_similar = i
+
+        elif modo == 3:
+            values, col_index, row_ptr = MatrizSimilaridade
+
+            inicio = row_ptr[IDcliente]
+            fim = row_ptr[IDcliente + 1]
+
+            for idx in range(inicio, fim):
+                coluna = col_index[idx]
+                sim = values[idx]
+
+                if coluna != IDcliente:
+                    if menor > sim:
+                        menor = sim
+                        IDcliente_similar = coluna
 
         print(f"\nO cliente mais similar com {cliente} é o cliente com ID igual a {IDcliente_similar}")
         print(f"com uma similaridade de {menor}\n")

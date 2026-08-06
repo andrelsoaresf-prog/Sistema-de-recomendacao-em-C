@@ -81,7 +81,7 @@ def main():
             case 1:
                 tt.testadorATV1(mapa_cliente, vetor_lista, nomes_produtos)
             case 2:
-                tt.testadorATV2(mapa_cliente, MatrizSimilaridade)
+                tt.testadorATV2(mapa_cliente, MatrizSimilaridade, modo)
             case 3:
                 tt.testadorATV3(vetor_lista, nomes_produtos, mapa_cliente,
                             NumeroProdutos, MatrizSimilaridade, modo)
