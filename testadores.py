@@ -71,8 +71,7 @@ def testadorATV3(vetor_lista, nomes_produtos, mapa_clientes, numeroProdutos, Mat
 
 
         print(f"\nOs {k} produtos mais recomendados são :")
-        for i in range(k):
-            IDproduto = Produtos_recomendados[i]
+        for IDproduto in Produtos_recomendados:
             print(nomes_produtos[IDproduto])
 
     else:
