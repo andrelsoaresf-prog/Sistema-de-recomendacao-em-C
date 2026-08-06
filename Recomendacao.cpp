@@ -7,7 +7,7 @@ bool compararPorRank(const Ranqueamento &a, const Ranqueamento &b){
     if (a.rank == b.rank){
         return a.idproduto < b.idproduto;
     }
-    return a.rank > b.rank; 
+    return a.rank < b.rank; 
 }
 
 vector<int> recomendacaoPadrao(const vector<list<int>> &vetorLista, 
