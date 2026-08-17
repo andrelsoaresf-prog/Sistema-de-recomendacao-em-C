@@ -216,7 +216,7 @@ Este projeto foi desenvolvido como atividade acadêmica da disciplina de **Progr
 
 ## 👨‍💻 Autores
 
-**Andre Luis Soares Ferreira**
+**Andre Luis Soares Ferreira**,
 **Icaro Eduardo de Souza Lucena**
 
 🎓 UFPB — Programação Estruturada
