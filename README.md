@@ -1,98 +1,222 @@
-# 🛒 Sistema de Recomendação em C++ com Integração Python
+# 🛒 Sistema de Recomendação
 
-Um sistema de recomendação de produtos para clientes de lojas de varejo, desenvolvido em **C++** e integrado ao **Python** via `pybind11`, como parte da disciplina de **Programação Estruturada** na UFPB.
+Sistema de recomendação de produtos desenvolvido em **C++**, com integração ao **Python através do pybind11**.
 
-O sistema recomenda produtos a um cliente com base no **Método da Vizinhança** (filtragem colaborativa baseada em usuário): clientes com histórico de compras parecido são considerados "vizinhos", e produtos que os vizinhos compraram (e o cliente ainda não) são ranqueados e recomendados.
+O projeto foi desenvolvido para a disciplina de **Programação Estruturada — UFPB** e tem como objetivo estudar a construção de um sistema de recomendação baseado no histórico de compras dos clientes.
 
----
-
-## 📌 Como funciona
-
-1. **Leitura da base de compras** (`listacompras.py`): lê um CSV de vendas e monta, para cada cliente, a lista de produtos que ele comprou.
-2. **Matriz de Similaridade** (`Similaridade.cpp/h`): calcula o quão parecido cada par de clientes é, usando a **distância de Jaccard** sobre o histórico de compras. Disponível em três modos:
-   - **Padrão** — multiplicação de matriz de compras pela transposta, do jeito tradicional.
-   - **Otimizada** — mesma ideia, mas evitando recalcular a transposta e aproveitando a simetria do resultado (quase metade das multiplicações).
-   - **CSR** (*Compressed Sparse Row*) — representação esparsa da matriz, guardando só os valores não nulos. Essencial para bases grandes, onde a matriz densa não caberia na memória.
-3. **Recomendação** (`Recomendacao.cpp/h`): para um cliente, ranqueia os produtos comprados por seus vizinhos (ponderados pela similaridade) e retorna os `k` melhores.
-4. **Integração Python** (`bindings.cpp`): expõe as funções de C++ ao Python como o módulo `Sistema_Recomendacao`, usando `pybind11`.
+A ideia é simples: **clientes com hábitos de compra semelhantes podem ajudar a recomendar produtos uns aos outros.**
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## 🚀 Como funciona?
 
-| Arquivo | Descrição |
-| --- | --- |
-| `CSR.cpp` / `CSR.h` | Estrutura de matriz esparsa (CSR) e construção da matriz de interseção de compras nesse formato. |
-| `Similaridade.cpp` / `Similaridade.h` | Cálculo da matriz de similaridade entre clientes (modos padrão, otimizado e CSR). |
-| `Recomendacao.cpp` / `Recomendacao.h` | Algoritmo de ranqueamento e seleção dos `k` produtos recomendados. |
-| `bindings.cpp` | Ligação (binding) das funções C++ ao Python via `pybind11`, gerando o módulo `Sistema_Recomendacao`. |
-| `setup.py` | Script de build da extensão Python (`Sistema_Recomendacao`). |
-| `listacompras.py` | Lê a base de compras (CSV), monta as estruturas de dados e conduz o fluxo principal do programa. |
-| `testadores.py` | Testadores interativos para as 3 atividades (consulta de compras, cliente mais similar, recomendação). |
-| `dados/` | Base de compras em CSV (não versionada — ver `.gitignore`). |
+O sistema recebe uma base de compras em CSV e passa pelas seguintes etapas:
 
----
-
-## 📐 Fundamentação Teórica
-
-**Distância de Jaccard** — mede a similaridade entre dois clientes `i` e `j` a partir da interseção dos produtos comprados:
-
-```
-s(i, j) = 1 - |Pᵢ ∩ Pⱼ| / |Pᵢ|
+```text
+📄 Base de compras
+        ↓
+🧾 Lista de compras por cliente
+        ↓
+📊 Cálculo de similaridade
+        ↓
+👥 Identificação dos vizinhos
+        ↓
+🛍️ Ranking de produtos
+        ↓
+⭐ Recomendações
 ```
 
-Note que essa medida é **assimétrica** (`s(i,j) ≠ s(j,i)`), o que é proposital: evita que um cliente que compra muito pareça "parecido" com todo mundo.
+Para o cálculo da similaridade, foram implementadas **três abordagens**:
 
-**Algoritmo de recomendação**, para recomendar `k` produtos a um cliente `c`:
-1. Lista os vizinhos de `c` (clientes com similaridade calculada, exceto ele mesmo).
-2. Inicializa um vetor de ranqueamento com valor 1 para cada produto.
-3. Para cada vizinho `s` e cada produto que `s` comprou (e `c` não comprou), multiplica o ranqueamento do produto por `s(c, s)`.
-4. Ordena os produtos pelo ranqueamento e retorna os `k` melhores.
+| Modo | Descrição                                           |
+| ---- | --------------------------------------------------- |
+| `1`  | Multiplicação de matrizes tradicional               |
+| `2`  | Algoritmo otimizado utilizando a simetria da matriz |
+| `3`  | Representação esparsa utilizando **CSR**            |
 
 ---
 
-## 🚀 Como Executar
+## 🧠 Sistema de recomendação
 
-### Pré-requisitos
-- Python 3 com `pip`
-- Compilador C++ com suporte a C++17 (`g++`/`clang++` no Linux/macOS, ou MSVC + *Build Tools* no Windows)
-- Biblioteca `pybind11`
+Para gerar uma recomendação, o sistema:
 
-### Instalação
+1. encontra os clientes semelhantes ao cliente escolhido;
+2. verifica os produtos comprados por esses clientes;
+3. ignora produtos que o cliente já comprou;
+4. calcula um ranking baseado na similaridade;
+5. retorna os `k` produtos mais bem ranqueados.
+
+A similaridade utilizada pelo projeto segue a fórmula definida na atividade:
+
+```text
+s(i,j) = 1 - |Pi ∩ Pj| / |Pi|
+```
+
+Essa medida é assimétrica, ou seja:
+
+```text
+s(i,j) ≠ s(j,i)
+```
+
+---
+
+## ⚡ Otimizações
+
+Além da implementação tradicional, o projeto possui duas abordagens voltadas para desempenho.
+
+### 🔹 Algoritmo otimizado
+
+Evita a construção explícita da matriz transposta e aproveita a simetria do produto:
+
+```text
+A × Aᵀ
+```
+
+Assim, parte dos cálculos pode ser evitada.
+
+### 🔹 CSR — Compressed Sparse Row
+
+A matriz de compras possui muitos valores `0`.
+
+Em vez de armazenar toda a matriz, a implementação CSR armazena apenas os elementos necessários através de:
+
+```text
+values
+col_index
+row_ptr
+```
+
+Isso reduz o espaço utilizado e permite trabalhar melhor com bases maiores.
+
+---
+
+## 🐍 Integração C++ + Python
+
+A versão final do projeto utiliza **pybind11** para conectar o código C++ ao Python.
+
+```text
+Python
+  │
+  ▼
+bindings.cpp
+  │
+  ▼
+C++
+  ├── Similaridade
+  ├── Recomendação
+  └── CSR
+```
+
+Dessa forma, as partes mais pesadas do processamento continuam sendo executadas em C++, enquanto o Python controla a execução e os testes.
+
+---
+
+## 📁 Estrutura do projeto
+
+```text
+📦 Sistema-de-recomendacao-em-C
+│
+├── 📂 dados/
+│
+├── 📄 CSR.cpp
+├── 📄 CSR.h
+│
+├── 📄 Similaridade.cpp
+├── 📄 Similaridade.h
+│
+├── 📄 Recomendacao.cpp
+├── 📄 Recomendacao.h
+│
+├── 📄 bindings.cpp
+├── 📄 setup.py
+│
+├── 📄 listacompras.py
+├── 📄 testadores.py
+│
+└── 📄 README.md
+```
+
+### Principais arquivos
+
+* **`CSR.cpp/h`** — implementação da matriz esparsa CSR.
+* **`Similaridade.cpp/h`** — cálculo da similaridade entre clientes.
+* **`Recomendacao.cpp/h`** — geração e ordenação das recomendações.
+* **`bindings.cpp`** — integração entre C++ e Python.
+* **`setup.py`** — configuração da compilação do módulo Python.
+* **`listacompras.py`** — leitura da base e execução do sistema.
+* **`testadores.py`** — testes das funcionalidades do projeto.
+
+---
+
+## 🛠️ Tecnologias
+
+* 🟦 **C++**
+* 🐍 **Python**
+* 🔗 **pybind11**
+* 📦 **STL**
+* 🧮 Multiplicação de matrizes
+* 🗜️ Matrizes esparsas — CSR
+* 🤖 Sistema de recomendação baseado em vizinhança
+
+---
+
+## ▶️ Como executar
+
+### 1. Instalar as dependências
+
 ```bash
 pip install pybind11 setuptools wheel
 ```
 
-### Compilação do módulo C++ (`Sistema_Recomendacao`)
+### 2. Compilar o módulo C++
+
 ```bash
 python3 setup.py build_ext --inplace
 ```
-Isso gera o arquivo compilado do módulo (ex.: `Sistema_Recomendacao.cpython-313-x86_64-linux-gnu.so` no Linux, ou `Sistema_Recomendacao.cp313-win_amd64.pyd` no Windows) na raiz do projeto.
 
-### Base de dados
-Coloque os arquivos de compras dentro da pasta `dados/` (não incluída no repositório — ver `.gitignore`), no formato:
-```
-DATA_COMPRA,COD_CLIENTE,COD_PRODUTO,NOME_PRODUTO
-```
-O projeto espera arquivos nomeados `dados_venda_cluster_1.csv` até `dados_venda_cluster_20.csv`.
+### 3. Executar
 
-### Execução
 ```bash
 python3 listacompras.py
 ```
-O programa vai pedir:
-1. **O número do cluster** (1 a 20) — qual arquivo CSV usar.
-2. **O modo de cálculo da similaridade** — 1 (padrão), 2 (otimizada) ou 3 (CSR).
-3. **Qual testador rodar**, em loop, até digitar `-1`:
-   - `1` — mostra os produtos comprados por um cliente.
-   - `2` — mostra o cliente mais similar a um cliente dado.
-   - `3` — mostra os `k` produtos mais recomendados para um cliente.
-   - `4` — mostra o tempo gasto para construir a matriz de similaridade.
+
+O programa irá solicitar:
+
+```text
+1. Cluster da base de dados
+2. Algoritmo de similaridade
+3. Testador desejado
+```
+
+### Testadores
+
+```text
+1 → Produtos comprados por um cliente
+2 → Cliente mais similar
+3 → Recomendações
+4 → Tempo de execução
+-1 → Sair
+```
 
 ---
 
-## 👤 Autores
+## 📚 Sobre o projeto
 
-Andre Luis Soares Ferreira e Icaro Eduardo de Souza Lucena
+Este projeto foi desenvolvido como atividade acadêmica da disciplina de **Programação Estruturada — UFPB**, com o objetivo de aplicar conceitos de:
 
-Projeto desenvolvido para a disciplina de Programação Estruturada — UFPB.
+* estruturas de dados;
+* manipulação de arquivos;
+* matrizes;
+* algoritmos de ordenação;
+* otimização;
+* estruturas esparsas;
+* integração entre linguagens.
+
+---
+
+## 👨‍💻 Autores
+
+**Andre Luis Soares Ferreira**
+**Icaro Eduardo de Souza Lucena**
+
+🎓 UFPB — Programação Estruturada
