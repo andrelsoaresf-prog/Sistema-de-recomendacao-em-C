@@ -93,7 +93,6 @@ O programa vai pedir:
 
 ## 👤 Autores
 
-Andre Luis Soares Ferreira
-Icaro Eduardo de Souza Lucena
+Andre Luis Soares Ferreira e Icaro Eduardo de Souza Lucena
 
 Projeto desenvolvido para a disciplina de Programação Estruturada — UFPB.
