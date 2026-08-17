@@ -6,7 +6,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(resenha, m) {
+PYBIND11_MODULE(Sistema_Recomendacao, m) {
     m.doc() = "Meu primeiro pacote";
 
     m.def("similaridade_CSR", &similaridadeCSR, "Funcao que cria a matriz similaridade no modo CSR");

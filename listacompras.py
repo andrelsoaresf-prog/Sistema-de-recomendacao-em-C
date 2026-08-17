@@ -1,5 +1,5 @@
 import csv
-import resenha
+import Sistema_Recomendacao
 import time
 import testadores as tt
 
@@ -13,10 +13,10 @@ def escolher_similaridade(vetor_lista, NumeroClientes, NumeroProdutos):
     inicio = time.perf_counter()
 
     if modo == 1 or modo == 2:
-        MatrizSimilaridade = resenha.similaridade_Padrao(vetor_lista, NumeroClientes, NumeroProdutos, modo)
+        MatrizSimilaridade = Sistema_Recomendacao.similaridade_Padrao(vetor_lista, NumeroClientes, NumeroProdutos, modo)
 
     elif modo == 3:
-        MatrizSimilaridade = resenha.similaridade_CSR(vetor_lista, NumeroClientes, NumeroProdutos)
+        MatrizSimilaridade = Sistema_Recomendacao.similaridade_CSR(vetor_lista, NumeroClientes, NumeroProdutos)
 
     fim = time.perf_counter()
 

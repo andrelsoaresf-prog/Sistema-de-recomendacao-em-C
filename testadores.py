@@ -1,4 +1,4 @@
-import resenha
+import Sistema_Recomendacao
 
 def testadorATV1(mapa_clientes, vetor_lista, nomes_produtos):
     cliente = str(input("Digite o código do cliente: "))
@@ -63,10 +63,10 @@ def testadorATV3(vetor_lista, nomes_produtos, mapa_clientes, numeroProdutos, Mat
         IDcliente = mapa_clientes[cliente]
 
         if modo == 1 or modo == 2:
-            Produtos_recomendados = resenha.recomendacao_Padrao(vetor_lista, numero_clientes, 
+            Produtos_recomendados = Sistema_Recomendacao.recomendacao_Padrao(vetor_lista, numero_clientes, 
                                                             numeroProdutos, MatrizSimilaridade, IDcliente, k)
         elif modo == 3:
-            Produtos_recomendados = resenha.recomendacao_CSR(vetor_lista, numero_clientes, 
+            Produtos_recomendados = Sistema_Recomendacao.recomendacao_CSR(vetor_lista, numero_clientes, 
                                                             numeroProdutos, MatrizSimilaridade, IDcliente, k)
 
 
